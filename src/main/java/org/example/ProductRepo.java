@@ -1,5 +1,95 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class ProductRepo {
 
+    //Properties
+    // Produkte Erstellen
+    private Product product1 = new Product("Phone", "15", 253.75);
+    private Product product2 = new Product("Laptop", "20", 445.69);
+    private Product product3 = new Product("SmartWatch", "87", 385.39);
+    private Product product4 = new Product("Table", "12", 55.99);
+    private Product product5 = new Product("Headset", "35", 15.15);
+    private Product product6 = new Product("Phone_Samsung", "45", 353.75);
+    private Product product7 = new Product("Laptop_Dell", "22", 745.69);
+    private Product product8 = new Product("Smart_TV", "17", 354.39);
+    private Product product9 = new Product("USBStick", "42", 12.99);
+    private Product product10 = new Product("AirFryer", "65", 100.15);
+
+    private List<Product> listProducts;
+
+    public ProductRepo() {
+        this.listProducts = new ArrayList<>();
+        this.addProduct(product1);
+        this.addProduct(product2);
+        this.addProduct(product3);
+        this.addProduct(product4);
+        this.addProduct(product5);
+        this.addProduct(product6);
+        this.addProduct(product7);
+        this.addProduct(product8);
+        this.addProduct(product9);
+        this.addProduct(product10);
+    }
+
+    //Getter & Setter
+    public List<Product> getListProducts() {
+        return listProducts;
+    }
+
+    public void setListProducts(List<Product> listProducts) {
+        this.listProducts = listProducts;
+    }
+
+    //Methods
+    public void addProduct(Product product) {
+        this.listProducts.add(product);
+    }
+
+    public void removeProduct(String productId) {
+        for (int i = 0; i < getListProducts().size(); i++) {
+            if (getListProducts().get(i).id().equals(productId)) {
+                getListProducts().remove(i);
+            }
+        }
+    }
+
+    public Product getProduct(String productId) {
+        //remove later
+        for (Product product : getListProducts()) {
+            if (productId.equals(product.id())) {
+                return product;
+            }
+        }
+        return null;
+        //return listProducts.get(Integer.parseInt(productId));
+        //return new Product("", "", 4.7, false);
+    }
+
+    public List<Product> getAllProducts() {
+        return this.listProducts;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductRepo that = (ProductRepo) o;
+        return Objects.equals(listProducts, that.listProducts);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(listProducts);
+    }
+
+    @Override
+    public String toString() {
+        return "ProductRepo{" +
+                "listProducts=" + listProducts +
+                '}';
+    }
 }
