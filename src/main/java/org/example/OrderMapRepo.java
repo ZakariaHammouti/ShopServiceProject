@@ -36,7 +36,6 @@ public class OrderMapRepo implements OrderRepoInterface {
 
     @Override
     public void removeOrder(String orderId) {
-        System.out.println("TETETTTETETET");
         getOrderMap().remove(orderId);
     }
 

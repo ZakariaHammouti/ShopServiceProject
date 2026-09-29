@@ -18,10 +18,10 @@ public class ShopService {
     private OrderRepoInterface orderMapRepo;
 
     //Constructor
-    public ShopService(OrderRepoInterface orderListRepo) {
+    public ShopService(OrderRepoInterface orderRepo) {
         this.productRepo = new ProductRepo();
         //this.orderListRepo = orderListRepo;
-        this.orderMapRepo = orderListRepo;
+        this.orderMapRepo = orderRepo;
     }
 
     //Getter und Setter
@@ -92,7 +92,6 @@ public class ShopService {
     public void placeOrderWithMap(String orderId) {
         //Ist d Order in  Map z finden
         if (getOrderMapRepo().getById(orderId) != null) {
-
             System.out.println("Order Exists");
             for (int i = 0; i < getOrderMapRepo().getById(orderId).product().size(); i++) {
                 System.out.println("I: " + i);
