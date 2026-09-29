@@ -9,7 +9,6 @@ public class OrderMapRepo implements OrderRepoInterface {
 
     //Properties
     private Map<String, Order> orderMap = new HashMap<>();
-    private List<Order> orderList = new ArrayList<>();
 
     //Getter & Setter
     public Map<String, Order> getOrderMap() {
@@ -18,14 +17,6 @@ public class OrderMapRepo implements OrderRepoInterface {
 
     public void setOrderMap(Map<String, Order> orderMap) {
         this.orderMap = orderMap;
-    }
-
-    public List<Order> getOrderList() {
-        return orderList;
-    }
-
-    public void setOrderList(List<Order> orderList) {
-        this.orderList = orderList;
     }
 
     //Methods
@@ -59,7 +50,6 @@ public class OrderMapRepo implements OrderRepoInterface {
     public String toString() {
         return "OrderMapRepo{" +
                 "orderMap=" + orderMap +
-                ", orderList=" + orderList +
                 '}';
     }
 }

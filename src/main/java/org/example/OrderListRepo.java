@@ -7,10 +7,6 @@ import java.util.Objects;
 
 public class OrderListRepo implements OrderRepoInterface {
 
-    public OrderListRepo() {
-
-    }
-
     //Properties
     List<Order> listOrders = new ArrayList<>();
 
