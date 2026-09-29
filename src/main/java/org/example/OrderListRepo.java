@@ -7,11 +7,15 @@ import java.util.Objects;
 
 public class OrderListRepo implements OrderRepoInterface {
 
-   /* public OrderListRepo(List<Order> listOrders) {
+    public OrderListRepo() {
+
+    }
+/* public OrderListRepo(List<Order> listOrders) {
         this.listOrders = listOrders;
     }*/
 
     //Properties
+
     List<Order> listOrders = new ArrayList<>();
 
     // Getter & Setter
@@ -25,23 +29,34 @@ public class OrderListRepo implements OrderRepoInterface {
 
     //Methods
     @Override
-    public void addOrder() {
-
+    public void addOrder(Order order) {
+        this.listOrders.add(order);
     }
 
     @Override
-    public void removeOrder() {
-
+    public void removeOrder(String orderId) {
+        for (int i = 0; i < getListOrders().size(); i++) {
+            if (getListOrders().get(i).orderId().equals(orderId)) {
+                getListOrders().remove(i);
+                break;
+            }
+        }
     }
 
     public Order getById() {
-        return getById(0);
+        return getById("0");
     }
 
     @Override
-    public Order getById(int ProductId) {
-        //remove later
-        return new Order();
+    public Order getById(String orderId) {
+        if (getListOrders() != null) {
+            for (int i = 0; i < getListOrders().size(); i++) {
+                if (orderId.equals(getListOrders().get(i).orderId())) {
+                    return getListOrders().get(i);
+                }
+            }
+        }
+        return null;
     }
 
     @Override

@@ -1,5 +1,8 @@
 package org.example;
 
-public record Order() {
-    
+import java.util.List;
+
+public record Order(String orderId, List<Product> product) {
+    // Eine Bestellung enthält Produkte
+
 }

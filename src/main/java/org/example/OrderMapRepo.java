@@ -30,23 +30,24 @@ public class OrderMapRepo implements OrderRepoInterface {
 
     //Methods
     @Override
-    public void addOrder() {
+    public void addOrder(Order order) {
 
     }
 
     @Override
-    public void removeOrder() {
+    public void removeOrder(String orderId) {
 
     }
 
     public Order getById() {
-        return getById(0);
+        return getById("0");
     }
 
     @Override
-    public Order getById(int ProductId) {
+    public Order getById(String ProductId) {
         //remove later
-        return new Order();
+        return new Order("", new ArrayList<>() {
+        });
     }
 
     @Override

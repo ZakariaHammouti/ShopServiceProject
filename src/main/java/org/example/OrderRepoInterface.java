@@ -4,11 +4,11 @@ import java.util.List;
 
 public interface OrderRepoInterface {
 
-    public void addOrder();
+    public void addOrder(Order order);
 
-    public void removeOrder();
+    public void removeOrder(String orderId);
 
-    public Order getById(int ProductId);
-    
+    public Order getById(String orderId);
+
     public List<Order> getAll();
 }

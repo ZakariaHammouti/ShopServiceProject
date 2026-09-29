@@ -50,15 +50,17 @@ public class ProductRepo {
     }
 
     public void removeProduct(String productId) {
-        for (int i = 0; i < getListProducts().size(); i++) {
-            if (getListProducts().get(i).id().equals(productId)) {
-                getListProducts().remove(i);
+        if (getListProducts() != null) {
+            for (int i = 0; i < getListProducts().size(); i++) {
+                if (getListProducts().get(i).id().equals(productId)) {
+                    getListProducts().remove(i);
+                }
             }
         }
     }
 
     public Product getProduct(String productId) {
-        //remove later
+
         for (Product product : getListProducts()) {
             if (productId.equals(product.id())) {
                 return product;
