@@ -15,11 +15,13 @@ public class ShopService {
     //Properties
     private ProductRepo productRepo;
     private OrderRepoInterface orderListRepo;
+    private OrderRepoInterface orderMapRepo;
 
     //Constructor
     public ShopService(OrderRepoInterface orderListRepo) {
         this.productRepo = new ProductRepo();
-        this.orderListRepo = new OrderListRepo();
+        //this.orderListRepo = orderListRepo;
+        this.orderMapRepo = orderListRepo;
     }
 
     //Getter und Setter
@@ -37,6 +39,14 @@ public class ShopService {
 
     public void setOrderListRepo(OrderRepoInterface orderListRepo) {
         this.orderListRepo = orderListRepo;
+    }
+
+    public OrderRepoInterface getOrderMapRepo() {
+        return orderMapRepo;
+    }
+
+    public void setOrderMapRepo(OrderRepoInterface orderMapRepo) {
+        this.orderMapRepo = orderMapRepo;
     }
 
     //Methods
@@ -69,13 +79,41 @@ public class ShopService {
         //iteriere durch die Produkte und guck mal ob sie in Produktliste existieren
         int i = 0;
         for (i = 0; i < getProductRepo().getListProducts().size(); i++) {
-            System.out.println("II: " + i);
+            //System.out.println("II: " + i);
             if (getProductRepo().getListProducts().get(i).id().equals(productId)) {
-                System.out.println("Produkt verfügbar " + getProductRepo().getListProducts().get(i));
+                System.out.println("Produkt verfügbar: " + getProductRepo().getListProducts().get(i));
                 return true;
             }
         }
-        System.out.println("Produkt nicht verfügbar " + getProductRepo().getListProducts().get(i));
+        System.out.println("Produkt nicht verfügbar: " + getProductRepo().getListProducts().get(i));
+        return false;
+    }
+
+    public void placeOrderWithMap(String orderId) {
+        //Ist d Order in  Map z finden
+        if (getOrderMapRepo().getById(orderId) != null) {
+
+            System.out.println("Order Exists");
+            for (int i = 0; i < getOrderMapRepo().getById(orderId).product().size(); i++) {
+                System.out.println("I: " + i);
+                isAvailableWithMap(getOrderMapRepo().getById(orderId).product().get(i).id());
+            }
+        } else {
+            System.out.println("Order does not exists");
+        }
+    }
+
+
+    public boolean isAvailableWithMap(String productId) {
+        int i = 0;
+        for (i = 0; i < getProductRepo().getListProducts().size(); i++) {
+            System.out.println("II: " + i);
+            if (getProductRepo().getListProducts().get(i).id().equals(productId)) {
+                System.out.println("Produkt verfügbar: " + getProductRepo().getListProducts().get(i));
+                return true;
+            }
+        }
+        System.out.println("Produkt nicht verfügbar: " + getProductRepo().getListProducts().get(i));
         return false;
     }
 }

@@ -10,12 +10,8 @@ public class OrderListRepo implements OrderRepoInterface {
     public OrderListRepo() {
 
     }
-/* public OrderListRepo(List<Order> listOrders) {
-        this.listOrders = listOrders;
-    }*/
 
     //Properties
-
     List<Order> listOrders = new ArrayList<>();
 
     // Getter & Setter
@@ -43,10 +39,6 @@ public class OrderListRepo implements OrderRepoInterface {
         }
     }
 
-    public Order getById() {
-        return getById("0");
-    }
-
     @Override
     public Order getById(String orderId) {
         if (getListOrders() != null) {
@@ -59,12 +51,12 @@ public class OrderListRepo implements OrderRepoInterface {
         return null;
     }
 
+    // Java Methods
     @Override
     public List<Order> getAll() {
         return listOrders;
     }
 
-    // Java Methods
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
