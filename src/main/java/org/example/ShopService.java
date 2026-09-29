@@ -45,8 +45,13 @@ public class ShopService {
             return;
         }
 
-        for (Product product : tmpOrder.product()) {
-            isAvailable(product.id());
+        List<Product> products = tmpOrder.product();
+
+        for (int i = 0; i < products.size(); i++) {
+            Product product = products.get(i);
+            if (isAvailable(product.id())) {
+                products.set(i, product.withOnStock(true));
+            }
         }
     }
 

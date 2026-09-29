@@ -41,15 +41,18 @@ public class Main {
         //Füge Bestellungen zu Liste hinzu
         shopService.getOrderRepo().addOrder(order1);
         shopService.getOrderRepo().addOrder(order2);
-        System.out.println("shopService.getOrderRepo():    " + shopService.getOrderRepo());
+        //System.out.println("shopService.getOrderRepo():    " + shopService.getOrderRepo());
 
         //Bestellung mit der Id aufgeben
         shopService.placeOrder("1234");
+        //System.out.println("List Order: " + shopService.getOrderRepo().getAll());
         shopService.getOrderRepo().removeOrder("1234");
         shopService.placeOrder("1234");
-        
+        //System.out.println("List Order: " + shopService.getOrderRepo().getAll());
+
         shopService.getOrderRepo().removeOrder("3456");
         shopService.placeOrder("3456");
+        //System.out.println("List Order: " + shopService.getOrderRepo().getAll());
         //#################### Ende Bestellung mit OrdListRepo
 
         //################# Bestellen mit OrderRepoMap ############
@@ -61,12 +64,15 @@ public class Main {
         //System.out.println("shopService.getOrderMapRepo():    " + shopService2.getOrderMapRepo());
         //shopService2.getOrderMapRepo().removeOrder("1234");
         shopService2.placeOrder("1234");
+        //System.out.println("List Order: " + shopService2.getOrderRepo().getAll());
 
         shopService2.getOrderRepo().removeOrder("1234");
         shopService2.getOrderRepo().removeOrder("3456");
 
         shopService2.placeOrder("1244");
+        //System.out.println("List Order: " + shopService2.getOrderRepo().getAll());
         shopService2.placeOrder("3456");
+        //System.out.println("List Order: " + shopService2.getOrderRepo().getAll());
         //################## Ende Bestellung mit OrderRepoMap ######
     }
 }
