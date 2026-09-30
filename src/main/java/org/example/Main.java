@@ -33,7 +33,7 @@ public class Main {
         Order order1 = new Order("1234", listOfSelectedProducts1);
         Order order2 = new Order("3456", listOfSelectedProducts2);
 
-        //################## Mit OrdrListRepo bestellen ##############
+        //################## Erstelle ShopService mit OrderListRepo ##############
         //Interface und Shop Service zum Aufgeben einer Bestellung
         OrderRepoInterface orderListRepo = new OrderListRepo();
         ShopService shopService = new ShopService(orderListRepo);
@@ -53,9 +53,9 @@ public class Main {
         shopService.getOrderRepo().removeOrder("3456");
         shopService.placeOrder("3456");
         //System.out.println("List Order: " + shopService.getOrderRepo().getAll());
-        //#################### Ende Bestellung mit OrdListRepo
+        //#################### Ende Bestellung mit OrdListRepo ###################
 
-        //################# Bestellen mit OrderRepoMap ############
+        //################# Erstelle ShopService mit OrderListRepo ###############
         OrderRepoInterface orderMapRepo = new OrderMapRepo();
         ShopService shopService2 = new ShopService(orderMapRepo);
 
