@@ -48,12 +48,19 @@ public class Main {
         }
 
         //erstelle Order
-        Order order1 = new Order("1234", listOfSelectedProducts1);
-        Order order2 = new Order("3456", listOfSelectedProducts2);
+        Order order1 = new Order("10234", listOfSelectedProducts1);
+        Order order2 = new Order("34156", listOfSelectedProducts2);
+        Order order3 = new Order("1344", listOfSelectedProducts1);
+        Order order4 = new Order("35776", listOfSelectedProducts2);
+        Order order5 = new Order("1274", listOfSelectedProducts1);
+        Order order6 = new Order("3468", listOfSelectedProducts2);
+        Order order7 = new Order("1234", listOfSelectedProducts1);
+        Order order8 = new Order("3456", listOfSelectedProducts2);
 
         //Füge Bestellungen zu Liste hinzu
         shopService.getOrderRepo().addOrder(order1);
         shopService.getOrderRepo().addOrder(order2);
+
 
         //Bestellung mit der Id aufgeben
         shopService.getOrderRepo().removeOrder("1234");
@@ -67,10 +74,26 @@ public class Main {
 
         shopService2.getOrderRepo().addOrder(order1);
         shopService2.getOrderRepo().addOrder(order2);
+        shopService2.getOrderRepo().addOrder(order3);
+        shopService2.getOrderRepo().addOrder(order5);
+        shopService2.getOrderRepo().addOrder(order7);
 
-        shopService2.placeOrder(order1.orderId());
-        shopService2.placeOrder(order2.orderId());
+        //shopService2.getOrderRepo().addOrder(order2);
 
+        if (shopService2.placeOrder(order1.orderId())) {
+            orderMapRepo.cutToHistoryList(order1);
+        }
+        if (shopService2.placeOrder(order3.orderId())) {
+            orderMapRepo.cutToHistoryList(order3);
+        }
+        if (shopService2.placeOrder(order5.orderId())) {
+            orderMapRepo.cutToHistoryList(order5);
+        }
+        if (shopService2.placeOrder(order7.orderId())) {
+            orderMapRepo.cutToHistoryList(order7);
+        }
+
+        //System.out.println(orderMapRepo.);
         //Bestellungen die erfolgreich waren entfernen von der Order List
         //Und einfügen in HistoryList
 

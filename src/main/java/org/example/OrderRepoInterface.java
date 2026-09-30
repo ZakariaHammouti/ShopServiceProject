@@ -11,5 +11,8 @@ public interface OrderRepoInterface {
     public Order getById(String orderId);
 
     public List<Order> getAll();
-    
+
+    public void cutToHistoryList(Order order);
+
+    public List<Order> getAllHistory();
 }

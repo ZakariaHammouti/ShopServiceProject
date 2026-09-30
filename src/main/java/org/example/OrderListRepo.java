@@ -24,6 +24,12 @@ public class OrderListRepo implements OrderRepoInterface {
         this.listOrders = listOrders;
     }
 
+
+    @Override
+    public void cutToHistoryList(Order order) {
+
+    }
+
     //Methods
     @Override
     public void addOrder(Order order) {
@@ -59,6 +65,11 @@ public class OrderListRepo implements OrderRepoInterface {
     @Override
     public List<Order> getAll() {
         return listOrders;
+    }
+
+    @Override
+    public List<Order> getAllHistory() {
+        return getListOrdersHistory();
     }
 
     @Override

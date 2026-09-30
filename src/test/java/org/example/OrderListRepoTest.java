@@ -8,8 +8,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class OrderListRepoTest {
-
-
     @Test
     void removeOrder_CheckListSizeAfterRemovingOrder() {
 

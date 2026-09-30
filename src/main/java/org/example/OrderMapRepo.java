@@ -10,7 +10,7 @@ public class OrderMapRepo implements OrderRepoInterface {
     //Properties
     private Map<String, Order> orderMap = new HashMap<>();
     private Map<String, Order> orderMapHistory = new HashMap<>();
-    
+
     // Getter & Setter
     public Map<String, Order> getOrderMapHistory() {
         return orderMapHistory;
@@ -22,6 +22,17 @@ public class OrderMapRepo implements OrderRepoInterface {
 
     public void setOrderMap(Map<String, Order> orderMap) {
         this.orderMap = orderMap;
+    }
+
+    @Override
+    public void cutToHistoryList(Order order) {
+        System.out.println("copyToHistoryList");
+        if (order != null) {
+            if (getOrderMap() != null && getOrderMapHistory() != null) {
+                getOrderMapHistory().put(order.orderId(), order);
+                removeOrder(order.orderId());
+            }
+        }
     }
 
     //Methods
@@ -39,7 +50,6 @@ public class OrderMapRepo implements OrderRepoInterface {
         return getById("0");
     }
 
-
     @Override
     public Order getById(String productId) {
         //remove later
@@ -50,6 +60,12 @@ public class OrderMapRepo implements OrderRepoInterface {
     public List<Order> getAll() {
         //Hier sind das Values von orderMap
         return orderMap.values().stream().toList();
+    }
+
+    @Override
+    public List<Order> getAllHistory() {
+        //Hier sind das Values von orderMap
+        return orderMapHistory.values().stream().toList();
     }
 
     @Override
