@@ -46,7 +46,8 @@ public class ProductRepo {
 
     //Methods
     public void addProduct(Product product) {
-        this.listProducts.add(product);
+        if (product != null)
+            this.listProducts.add(product);
     }
 
     public void removeProduct(String productId) {

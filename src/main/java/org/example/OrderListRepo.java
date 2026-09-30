@@ -9,8 +9,13 @@ public class OrderListRepo implements OrderRepoInterface {
 
     //Properties
     List<Order> listOrders = new ArrayList<>();
+    List<Order> listOrdersHistory = new ArrayList<>();
 
     // Getter & Setter
+    public List<Order> getListOrdersHistory() {
+        return listOrdersHistory;
+    }
+
     public List<Order> getListOrders() {
         return listOrders;
     }

@@ -9,8 +9,13 @@ public class OrderMapRepo implements OrderRepoInterface {
 
     //Properties
     private Map<String, Order> orderMap = new HashMap<>();
+    private Map<String, Order> orderMapHistory = new HashMap<>();
+    
+    // Getter & Setter
+    public Map<String, Order> getOrderMapHistory() {
+        return orderMapHistory;
+    }
 
-    //Getter & Setter
     public Map<String, Order> getOrderMap() {
         return orderMap;
     }
