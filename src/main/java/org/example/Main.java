@@ -1,39 +1,41 @@
 package org.example;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    static void main(String[] args) {
+    static void main(String[] args) throws IOException {
 
-        // Produkte Erstellen, von denen man OrderList erstellen kann
-      /*  Product product1 = new Product("Phone", "15", 253.75, true, 17);
-        Product product2 = new Product("Laptop", "20", 445.69, true, 2);
-        Product product3 = new Product("SmartWatch", "87", 385.39, true, 3);
-        Product product4 = new Product("Table", "12", 55.99, true, 12);
-        Product product5 = new Product("Headset", "35", 15.15, true, 1);
-        Product product6 = new Product("Phone_Samsung", "45", 353.75, true, 1);
-        Product product7 = new Product("Laptop_Dell", "22", 745.69, true, 1);
-        Product product8 = new Product("Smart_TV", "17", 354.39, false, 0);
-        Product product9 = new Product("USBStick", "42", 12.99, false, 0);
-        Product product10 = new Product("AirFryer", "65", 100.15, false, 0);*/
-        //erstelle ProductList
+        CsvReader csvReader = new CsvReader();
+        List<String[]> tmpList = csvReader.getLines();
+
+        OrderRepoInterface orderMapRepo = new OrderMapRepo();
+        ShopService shopService = new ShopService(orderMapRepo, tmpList);
 
 
-        System.out.println("Wähle von der folgendn Artikeln aus:");
-        System.out.println("Phone id: 15");
-        System.out.println("Laptop id: 20");
-        System.out.println("SmartWatch id: 87");
-        System.out.println("Table id: 12");
-        System.out.println("Headset id: 35");
-        System.out.println("Phone_Samsung id: 45");
-        System.out.println("Laptop_Dell id: 22");
-        System.out.println("Smart_TV id: 17");
-        System.out.println("USBStick id: 42");
-        System.out.println("AirFryer id: 65");
+        //System.out.println(shopService.getProductRepo().getListProducts());
+        int size = shopService.getProductRepo().getListProducts().size();
+        for (int i = 0; i < 10; i++) {
+            System.out.println(shopService.getProductRepo().getListProducts().get(i));
+        }
         System.out.println("");
+        System.out.println("Wähle von folgenden Produkten aus: ");
+
+        List<Product> orderProducts = new ArrayList<>() {
+        };
+
+        orderProducts.add(shopService.getProductRepo().getListProducts().get(0));
+        orderProducts.add(shopService.getProductRepo().getListProducts().get(1));
+        orderProducts.add(shopService.getProductRepo().getListProducts().get(2));
+        Order orderUser = new Order("10234", orderProducts);
+        shopService.getOrderRepo().addOrder(orderUser);
+
+        shopService.placeOrder("10234");
+
+        /*
 
         List<Product> selectedProducts = new ArrayList<>();
         OrderRepoInterface orderMapRepoUser = new OrderMapRepo();
@@ -156,6 +158,6 @@ public class Main {
         //System.out.println(orderMapRepo.);
         //Bestellungen die erfolgreich waren entfernen von der Order List
         //Und einfügen in HistoryList
-
+*/
     }
 }

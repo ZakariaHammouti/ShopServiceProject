@@ -3,12 +3,13 @@ package org.example;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class ProductRepo {
 
     //Properties
     // Produkte Erstellen
-    private Product product1 = new Product("Phone", "15", 253.75, true, 17);
+  /*  private Product product1 = new Product("Phone", "15", 253.75, true, 17);
     private Product product2 = new Product("Laptop", "20", 445.69, true, 2);
     private Product product3 = new Product("SmartWatch", "87", 385.39, true, 3);
     private Product product4 = new Product("Table", "12", 55.99, true, 12);
@@ -18,11 +19,18 @@ public class ProductRepo {
     private Product product8 = new Product("Smart_TV", "17", 354.39, false, 0);
     private Product product9 = new Product("USBStick", "42", 12.99, false, 0);
     private Product product10 = new Product("AirFryer", "65", 100.15, false, 0);
-
-    private List<Product> listProducts;
+*/
+    private List<Product> listProducts = new ArrayList<>();
+    ;
 
     public ProductRepo() {
-        this.listProducts = new ArrayList<>();
+
+    }
+
+    public ProductRepo(List<String[]> listProducts) {
+
+        createListProducts(listProducts);
+        /*   this.listProducts = new ArrayList<>();
         this.addProduct(product1);
         this.addProduct(product2);
         this.addProduct(product3);
@@ -32,7 +40,7 @@ public class ProductRepo {
         this.addProduct(product7);
         this.addProduct(product8);
         this.addProduct(product9);
-        this.addProduct(product10);
+        this.addProduct(product10);*/
     }
 
     //Getter & Setter
@@ -42,6 +50,22 @@ public class ProductRepo {
 
     public void setListProducts(List<Product> listProducts) {
         this.listProducts = listProducts;
+    }
+
+    private void createListProducts(List<String[]> listAvailableProducts) {
+
+        Random random = new Random();
+        int i = 1;
+        for (String[] product : listAvailableProducts) {
+            Product productTmp = new Product(product[1],
+                    String.valueOf(i),
+                    Double.parseDouble(product[2]),
+                    true,
+                    random.nextInt(11) + 20);
+            this.getListProducts().add(productTmp);
+            i++;
+        }
+
     }
 
     //Methods
@@ -87,12 +111,13 @@ public class ProductRepo {
             updatedProduct = updatedProduct.withOnStock(false);
             getListProducts().set(index, updatedProduct);
         }
+        System.out.println("Nach Update: " +
+                getListProducts().get(index));
     }
 
     public List<Product> getAllProducts() {
         return this.listProducts;
     }
-
 
     @Override
     public boolean equals(Object o) {
