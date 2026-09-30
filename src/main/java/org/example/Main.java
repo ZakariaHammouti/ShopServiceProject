@@ -3,6 +3,7 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     static void main(String[] args) {
@@ -19,6 +20,62 @@ public class Main {
         Product product9 = new Product("USBStick", "42", 12.99, false, 0);
         Product product10 = new Product("AirFryer", "65", 100.15, false, 0);*/
         //erstelle ProductList
+
+
+        System.out.println("Wähle von der folgendn Artikeln aus:");
+        System.out.println("Phone id: 15");
+        System.out.println("Laptop id: 20");
+        System.out.println("SmartWatch id: 87");
+        System.out.println("Table id: 12");
+        System.out.println("Headset id: 35");
+        System.out.println("Phone_Samsung id: 45");
+        System.out.println("Laptop_Dell id: 22");
+        System.out.println("Smart_TV id: 17");
+        System.out.println("USBStick id: 42");
+        System.out.println("AirFryer id: 65");
+        System.out.println("");
+
+        List<Product> selectedProducts = new ArrayList<>();
+        OrderRepoInterface orderMapRepoUser = new OrderMapRepo();
+        ShopService shopServiceUser = new ShopService(orderMapRepoUser);
+
+        Scanner scanner = new Scanner(System.in);
+        String givenProduct = "";
+        while (!givenProduct.equals("b")) {
+            System.out.println("Bestellen mit: b u enter");
+            System.out.println("################");
+            System.out.println("Oder id eingeben und enter");
+            givenProduct = scanner.nextLine();
+
+            if (shopServiceUser.getProductRepo().isProductNull(givenProduct)) {
+                selectedProducts.add(shopServiceUser.getProductRepo().getProduct(givenProduct));
+            } else {
+                System.out.println("Das ausgewählte Produkt ist nicht verfügbar: " +
+                        givenProduct);
+            }
+        }
+
+        Order orderUser = new Order("10234", selectedProducts);
+        shopServiceUser.getOrderRepo().addOrder(orderUser);
+        shopServiceUser.placeOrder("10234");
+
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
 
 
         //################## Erstelle ShopService mit OrderListRepo ##############
