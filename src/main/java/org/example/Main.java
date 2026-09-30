@@ -28,7 +28,7 @@ public class Main {
 
         List<Product> listOfSelectedProducts1 = new ArrayList<>();
         listOfSelectedProducts1.add(shopService.getProductRepo().getProduct("15"));
-        listOfSelectedProducts1.add(shopService.getProductRepo().getProduct("35"));
+        //listOfSelectedProducts1.add(shopService.getProductRepo().getProduct("35"));
 
         List<Product> listOfSelectedProducts2 = new ArrayList<>();
 

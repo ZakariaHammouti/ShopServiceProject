@@ -37,13 +37,13 @@ public class ShopService {
     //Schritt 1: Implementiere eine Methode zum Aufgeben einer neuen Bestellung.
     // Die Artikel werden später unter Angabe der Produkt Id bestellt.
 
-    public void placeOrder(String orderId) {
-        //hol die Bestellung mit der ID von d OrderRepoList
+    public boolean placeOrder(String orderId) {
+        //hol die Bestellung mit der ID von OrderRepoList
         Order tmpOrder = getOrderRepo().getById(orderId);
         int countProductFound = 0;
 
         if (tmpOrder == null) {
-            return;
+            return false;
         }
 
         List<Product> products = tmpOrder.product();
@@ -56,10 +56,13 @@ public class ShopService {
                 countProductFound++;
             }
         }
-        if (products.size() == countProductFound)
+        if (products.size() == countProductFound) {
             System.out.println("Alle Produkte sind auf Lager, Bestellung erfolgreich");
-        else
+            return true;
+        } else {
             System.out.println("Nicht alle Produkte sind auf Lager, Bestellung nicht erfolgreich");
+            return false;
+        }
     }
 
     //Schritt 2: Prüfe, ob die bestellten Produkte existieren.
