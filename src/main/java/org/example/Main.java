@@ -41,18 +41,21 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         String givenProduct = "";
-        while (!givenProduct.equals("b")) {
-            System.out.println("Bestellen mit: b u enter");
+        while (true) {
+            System.out.println("Bestellen mit: b u enter: ");
             System.out.println("################");
-            System.out.println("Oder id eingeben und enter");
+            System.out.println("Oder id eingeben und enter: ");
             givenProduct = scanner.nextLine();
 
-            if (shopServiceUser.getProductRepo().isProductNull(givenProduct)) {
+            if (shopServiceUser.getProductRepo().isProductNull(givenProduct))
                 selectedProducts.add(shopServiceUser.getProductRepo().getProduct(givenProduct));
-            } else {
+
+            if (givenProduct.equals("b"))
+                break;
+            else
                 System.out.println("Das ausgewählte Produkt ist nicht verfügbar: " +
                         givenProduct);
-            }
+
         }
 
         Order orderUser = new Order("10234", selectedProducts);
