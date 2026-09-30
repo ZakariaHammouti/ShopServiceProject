@@ -47,6 +47,24 @@ public class OrderListRepo implements OrderRepoInterface {
         return null;
     }
 
+    //Wie viele gleiche Produkte habe ich in meinen Order
+    //quantity = 0 bedeutet Product nicht auf Lager
+
+    @Override
+    public void checkQuantityinOrder(Order order) {
+
+        for (Product product : order.product()) {
+            int quantity = 0;
+
+            for (Product product2 : order.product()) {
+                if (product.equals(product2)) {
+                    quantity++;
+                }
+            }
+            System.out.println(product + " kommt " + quantity + " mal vor.");
+        }
+    }
+
     // Java Methods
     @Override
     public List<Order> getAll() {

@@ -11,4 +11,6 @@ public interface OrderRepoInterface {
     public Order getById(String orderId);
 
     public List<Order> getAll();
+
+    public void checkQuantityinOrder(Order order);
 }

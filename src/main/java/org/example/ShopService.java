@@ -46,6 +46,7 @@ public class ShopService {
         }
 
         List<Product> products = tmpOrder.product();
+        System.out.println("Products to place: " + products.size());
 
         for (int i = 0; i < products.size(); i++) {
             Product product = products.get(i);
@@ -59,17 +60,32 @@ public class ShopService {
     // Wenn nicht, gib eine System.out.println-Nachricht aus.
     public boolean isAvailable(String productId) {
         //iteriere durch die Produkte und guck mal ob sie in Produktliste existieren
-        for (Product product : getProductRepo().getListProducts()) {
-            if (product.id().equals(productId)) {
-                System.out.println("Produkt verfügbar: " + product);
-                return true;
-            } else {
-                System.out.println("Weiter suchen");
+        //for (Product product : getProductRepo().getListProducts()) {
+        for (int i = 0; i < getProductRepo().getListProducts().size(); i++) {
+            if (getProductRepo().getListProducts().get(i).id().equals(productId)) {
+                if (getProductRepo().getListProducts().get(i).quantity() > 0) {
+                    // update prodRepoList quantity != 0
+                    System.out.println("Das Produkt mit der Id: "
+                            + getProductRepo().getListProducts().get(i) +
+                            "ist auf Lager");
+                    getProductRepo().updateStatusOfProduct(i);
+                    return true;
+                } else {
+                    // quantity = 0
+                    System.out.println("Das Produkt mit der Id: "
+                            + getProductRepo().getListProducts().get(i) +
+                            " ist nicht auf Lager");
+                    return false;
+                }
             }
         }
-        System.out.println("Produkt nicht verfügbar: " + productId);
+        System.out.println("Produkt mit der ID" +
+                productId + " ist nicht verfügbar: ");
         return false;
     }
+
+    //Ich will die Anzahl der Produkte in meier Produkteliste wissen
+
 
     @Override
     public String toString() {
