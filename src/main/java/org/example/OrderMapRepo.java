@@ -34,10 +34,6 @@ public class OrderMapRepo implements OrderRepoInterface {
         return getById("0");
     }
 
-    @Override
-    public void checkQuantityinOrder(Order order) {
-
-    }
 
     @Override
     public Order getById(String productId) {

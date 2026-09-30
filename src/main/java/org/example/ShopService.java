@@ -40,27 +40,32 @@ public class ShopService {
     public void placeOrder(String orderId) {
         //hol die Bestellung mit der ID von d OrderRepoList
         Order tmpOrder = getOrderRepo().getById(orderId);
+        int countProductFound = 0;
 
         if (tmpOrder == null) {
             return;
         }
 
         List<Product> products = tmpOrder.product();
-        System.out.println("Products to place: " + products.size());
+        System.out.println("amount of Products to place: " + products.size());
 
         for (int i = 0; i < products.size(); i++) {
             Product product = products.get(i);
             if (isAvailable(product.id())) {
                 products.set(i, product.withOnStock(true));
+                countProductFound++;
             }
         }
+        if (products.size() == countProductFound)
+            System.out.println("Alle Produkte sind auf Lager, Bestellung erfolgreich");
+        else
+            System.out.println("Nicht alle Produkte sind auf Lager, Bestellung nicht erfolgreich");
     }
 
     //Schritt 2: Prüfe, ob die bestellten Produkte existieren.
     // Wenn nicht, gib eine System.out.println-Nachricht aus.
     public boolean isAvailable(String productId) {
         //iteriere durch die Produkte und guck mal ob sie in Produktliste existieren
-        //for (Product product : getProductRepo().getListProducts()) {
         for (int i = 0; i < getProductRepo().getListProducts().size(); i++) {
             if (getProductRepo().getListProducts().get(i).id().equals(productId)) {
                 if (getProductRepo().getListProducts().get(i).quantity() > 0) {
@@ -83,8 +88,6 @@ public class ShopService {
                 productId + " ist nicht verfügbar: ");
         return false;
     }
-
-    //Ich will die Anzahl der Produkte in meier Produkteliste wissen
 
 
     @Override

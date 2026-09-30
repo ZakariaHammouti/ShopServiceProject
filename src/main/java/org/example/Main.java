@@ -29,84 +29,50 @@ public class Main {
         List<Product> listOfSelectedProducts1 = new ArrayList<>();
         listOfSelectedProducts1.add(shopService.getProductRepo().getProduct("15"));
         listOfSelectedProducts1.add(shopService.getProductRepo().getProduct("35"));
-        //listOfSelectedProducts1.add(shopService.getProductRepo().getProduct("87"));
-        //listOfSelectedProducts1.add(shopService.getProductRepo().getProduct("12"));
 
         List<Product> listOfSelectedProducts2 = new ArrayList<>();
 
-        if (!shopService.getProductRepo().productIsNull("20")) {
+        //Prüfen bevor Produkte eingefügt werden
+        if (shopService.getProductRepo().isProductNull("20")) {
 
             listOfSelectedProducts2.add(shopService.getProductRepo().getProduct("45"));
         }
-        if (!shopService.getProductRepo().productIsNull("17")) {
+        if (shopService.getProductRepo().isProductNull("17")) {
             listOfSelectedProducts2.add(shopService.getProductRepo().getProduct("17"));
         }
-        if (!shopService.getProductRepo().productIsNull("452")) {
+        if (shopService.getProductRepo().isProductNull("452")) {
             listOfSelectedProducts2.add(shopService.getProductRepo().getProduct("452"));
         }
-        if (!shopService.getProductRepo().productIsNull("35")) {
+        if (shopService.getProductRepo().isProductNull("35")) {
             listOfSelectedProducts2.add(shopService.getProductRepo().getProduct("35"));
         }
-
-
-        //Füge ein Produkt beliebig oft zu dem Order
-        //Entferne ein Product von der Liste
 
         //erstelle Order
         Order order1 = new Order("1234", listOfSelectedProducts1);
         Order order2 = new Order("3456", listOfSelectedProducts2);
+
         //Füge Bestellungen zu Liste hinzu
-        //shopService.getOrderRepo().addOrder(order1);
-        //shopService.getOrderRepo().addOrder(order2);
-        //System.out.println("shopService.getOrderRepo():    " + shopService.getOrderRepo());
+        shopService.getOrderRepo().addOrder(order1);
+        shopService.getOrderRepo().addOrder(order2);
 
-        //shopService.getOrderRepo().checkQuantityinOrder(order1);
         //Bestellung mit der Id aufgeben
-        //shopService.placeOrder("1234");
-        //System.out.println("List Order: " + shopService.getOrderRepo().getAll());
-        //shopService.getOrderRepo().removeOrder("1234");
-        //shopService.placeOrder("1234");
-        //System.out.println("List Order: " + shopService.getOrderRepo().getAll());
+        shopService.getOrderRepo().removeOrder("1234");
+        shopService.placeOrder("3456");
 
-        //shopService.getOrderRepo().removeOrder("3456");
-        //shopService.placeOrder("3456");
-        //System.out.println("List Order: " + shopService.getOrderRepo().getAll());
         //#################### Ende Bestellung mit OrdListRepo ###################
 
         //################# Erstelle ShopService mit OrderMapRepo ###############
-        OrderRepoInterface orderMapRepo = new OrderListRepo();
+        OrderRepoInterface orderMapRepo = new OrderMapRepo();
         ShopService shopService2 = new ShopService(orderMapRepo);
 
         shopService2.getOrderRepo().addOrder(order1);
         shopService2.getOrderRepo().addOrder(order2);
-        //System.out.println("shopService.getOrderMapRepo():    " + shopService2.getOrderMapRepo());
-        //shopService2.getOrderMapRepo().removeOrder("1234");
-        //shopService2.placeOrder("1234");
-        //System.out.println("List Order: " + shopService2.getOrderRepo().getAll());
 
-        // shopService2.getOrderRepo().removeOrder("1234");
-        //  shopService2.getOrderRepo().removeOrder("3456");
-
-        //shopService2.placeOrder("1244");
-        //System.out.println("List Order: " + shopService2.getOrderRepo().getAll());
-        //shopService2.placeOrder("3456");
-        //System.out.println("List Order: " + shopService2.getOrderRepo().getAll());
-        //################## Ende Bestellung mit OrderRepoMap ######
-        System.out.println("Order 1: " + order1);
-        shopService2.getOrderRepo().checkQuantityinOrder(order1);
-
-        //shopService2.isAvailable("65");
-        // System.out.println("Ordeeeeeeer: " + order1);
         shopService2.placeOrder(order1.orderId());
         shopService2.placeOrder(order2.orderId());
 
-        //shopService2.isAvailable("17");
-        //shopService2.isAvailable("20");
+        //Bestellungen die erfolgreich waren entfernen von der Order List
+        //Und einfügen in HistoryList
 
-        // System.out.println("Ordeeeeeeer: " + order1);
-
-
-        // Sobald die Bestellung betätig wurde entferne den oder füge den
-        // Already ordered
     }
 }

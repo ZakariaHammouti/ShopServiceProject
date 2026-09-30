@@ -71,9 +71,9 @@ public class ProductRepo {
         //return new Product("", "", 4.7, false);
     }
 
-    public boolean productIsNull(String productId) {
+    public boolean isProductNull(String productId) {
 
-        return getProduct(productId) == null;
+        return getProduct(productId) != null;
     }
 
     public void updateStatusOfProduct(int index) {
