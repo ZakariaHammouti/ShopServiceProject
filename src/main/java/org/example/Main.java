@@ -2,10 +2,7 @@ package org.example;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     static void main(String[] args) throws IOException {
@@ -49,6 +46,7 @@ public class Main {
         while (true) {
             System.out.println("Abbrechen mit: a und enter: ");
             System.out.println("Bestellen mit: b und enter: ");
+            System.out.println("WarenEingang mit c, d: gefolgt von Product Id und Menge mit Komma dazwischen und enter: ");
             System.out.println("################");
             System.out.println("Oder product id eingeben und Menge mit Komma " +
                     "dazwischen dann enter: ");
@@ -66,23 +64,48 @@ public class Main {
             if (givenProduct.equals("a")) {
                 break;
             }
-            // Produkte einfügen in Order
-            String[] productIdAndCount = givenProduct.split(",");
-            if (productIdAndCount.length >= 2) {
-                System.out.println("STRING: " + productIdAndCount[0] + " " + productIdAndCount[1]);
-                //Erstelle Product
-                Product productToCheck = shopService.getProductRepo().getProduct(productIdAndCount[0].trim());
-                //Menge Checken
-                if (Integer.parseInt(productIdAndCount[1].trim()) > productToCheck.quantity()) {
-                    System.out.println("Menge zu Groß. Verfügbare Menge: " + productToCheck.quantity());
-
-                } else {
-                    System.out.println("Menge passt");
-                    for (int i = 0; i < Integer.parseInt(productIdAndCount[1].trim()); i++) {
-                        orderProducts.add(productToCheck);
+            if (givenProduct.startsWith("c")) {
+                //add Products to ProductRepo
+                System.out.println("Waren Eingang");
+                String[] productsAddToStock = givenProduct.split(",");
+                //Lösche c
+                productsAddToStock = Arrays.copyOfRange(productsAddToStock, 1, productsAddToStock.length);
+                Map<String, Integer> mapNewProducts = new HashMap<>();
+                //Damit ich paare bilden kann
+                int length = productsAddToStock.length;
+                if (length % 2 == 0) {
+                    for (int i = 0; i < productsAddToStock.length; i = i + 2) {
+                        System.out.println(productsAddToStock[i]);
+                        //Change quantity of Product in list of products
+                        //Ungerade stelle sind Ids
+                        mapNewProducts.put(productsAddToStock[i], Integer.parseInt(productsAddToStock[i + 1]));
                     }
                 }
-                productsToCheckBeforeOrder = shopService.getProductRepo().getAllProducts();
+                if (mapNewProducts != null) {
+                    shopService.getProductRepo().getNewProductsDelivered(mapNewProducts);
+                    System.out.println("GET List After Updating: " +
+                            shopService.getProductRepo().getAllProducts());
+                }
+            }
+            // Produkte einfügen in Order
+            else {
+                String[] productIdAndCount = givenProduct.split(",");
+                if (productIdAndCount.length >= 2) {
+                    System.out.println("STRING: " + productIdAndCount[0] + " " + productIdAndCount[1]);
+                    //Erstelle Product
+                    Product productToCheck = shopService.getProductRepo().getProduct(productIdAndCount[0].trim());
+                    //Menge Checken
+                    if (Integer.parseInt(productIdAndCount[1].trim()) > productToCheck.quantity()) {
+                        System.out.println("Menge zu Groß. Verfügbare Menge: " + productToCheck.quantity());
+
+                    } else {
+                        System.out.println("Menge passt");
+                        for (int i = 0; i < Integer.parseInt(productIdAndCount[1].trim()); i++) {
+                            orderProducts.add(productToCheck);
+                        }
+                    }
+
+                }
             }
 
             System.out.println("Menge eingeben und enter: ");

@@ -1,9 +1,6 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class ProductRepo {
 
@@ -113,6 +110,29 @@ public class ProductRepo {
         }
         System.out.println("Nach Update: " +
                 getListProducts().get(index));
+    }
+
+    public void getNewProductsDelivered(Map<String, Integer> mapNewProducts) {
+        //key = product id und value = quantity
+        System.out.println("MAPPPPPPPPP: " + mapNewProducts.size());
+
+        for (Map.Entry<String, Integer> entry : mapNewProducts.entrySet()) {
+
+            String productId = entry.getKey();
+            int newQuantity = entry.getValue();
+
+            for (int i = 0; i < getListProducts().size(); i++) {
+
+                Product product = getListProducts().get(i);
+
+                if (product.id().equals(productId)) {
+
+                    Product updatedProduct = product.withQuantity(getListProducts().get(i).quantity() + newQuantity);
+
+                    getListProducts().set(i, updatedProduct);
+                }
+            }
+        }
     }
 
     public List<Product> getAllProducts() {
