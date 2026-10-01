@@ -1,6 +1,8 @@
 package org.example;
 
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -19,7 +21,9 @@ public class Main {
             System.out.println(shopService.getProductRepo().getListProducts().get(i));
         }
         System.out.println("");
-        System.out.println("Wähle von folgenden Produkten aus: ");
+
+        System.out.println("Wähle Produkte einzeln aus mit: produktId, quantity");
+        System.out.println("Beispiel: productId1, quantity1 Enter");
 
         List<Product> orderProducts = new ArrayList<>() {
         };
@@ -37,10 +41,10 @@ public class Main {
         while (true) {
             System.out.println("Abbrechen mit: a und enter: ");
             System.out.println("Bestellen mit: b und enter: ");
-            System.out.println("WarenEingang mit c, d: gefolgt von Product Id und Menge mit Komma dazwischen und enter: ");
+            System.out.println("WarenEingang mit c: gefolgt von Product Id und Menge mit Komma dazwischen und enter: ");
+            System.out.println("Beispiel: c, productId1, quantity1, productId2, quantity2,...");
             System.out.println("################");
-            System.out.println("Oder product id eingeben und Menge mit Komma " +
-                    "dazwischen dann enter: ");
+
             givenProduct = scanner.nextLine();
             if (givenProduct.equals("b")) {
                 if (orderProducts != null) {
