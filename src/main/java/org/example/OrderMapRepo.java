@@ -26,7 +26,6 @@ public class OrderMapRepo implements OrderRepoInterface {
 
     @Override
     public void cutToHistoryList(Order order) {
-        System.out.println("copyToHistoryList");
         if (order != null) {
             if (getOrderMap() != null && getOrderMapHistory() != null) {
                 getOrderMapHistory().put(order.orderId(), order);
