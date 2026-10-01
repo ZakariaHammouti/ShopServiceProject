@@ -4,6 +4,7 @@ package org.example;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -15,7 +16,6 @@ public class Main {
         OrderRepoInterface orderMapRepo = new OrderMapRepo();
         ShopService shopService = new ShopService(orderMapRepo, tmpList);
 
-
         //System.out.println(shopService.getProductRepo().getListProducts());
         int size = shopService.getProductRepo().getListProducts().size();
         for (int i = 0; i < 10; i++) {
@@ -26,14 +26,69 @@ public class Main {
 
         List<Product> orderProducts = new ArrayList<>() {
         };
+        List<Product> productsToCheckBeforeOrder = new ArrayList<>() {
+        };
 
-        orderProducts.add(shopService.getProductRepo().getListProducts().get(0));
-        orderProducts.add(shopService.getProductRepo().getListProducts().get(1));
-        orderProducts.add(shopService.getProductRepo().getListProducts().get(2));
-        Order orderUser = new Order("10234", orderProducts);
-        shopService.getOrderRepo().addOrder(orderUser);
+        //orderProducts.add(shopService.getProductRepo().getListProducts().get(0));
+        //orderProducts.add(shopService.getProductRepo().getListProducts().get(1));
+        //orderProducts.add(shopService.getProductRepo().getListProducts().get(2));
+        //Order orderUser = new Order("10234", orderProducts);
+        //shopService.getOrderRepo().addOrder(orderUser);
 
-        shopService.placeOrder("10234");
+        //shopService.placeOrder("10234");
+
+
+        Random random = new Random();
+        int randomOrderId = random.nextInt(10001) + 10000;//[10000, 20000]
+        String randomOrderIdStr = String.valueOf(randomOrderId);
+
+        Order orderFromConsole;
+
+        Scanner scanner = new Scanner(System.in);
+        String givenProduct = "";
+        while (true) {
+            System.out.println("Abbrechen mit: a und enter: ");
+            System.out.println("Bestellen mit: b und enter: ");
+            System.out.println("################");
+            System.out.println("Oder product id eingeben und Menge mit Komma " +
+                    "dazwischen dann enter: ");
+            givenProduct = scanner.nextLine();
+            if (givenProduct.equals("b")) {
+                if (orderProducts != null) {
+                    if (!orderProducts.isEmpty()) {
+                        orderFromConsole = new Order(randomOrderIdStr, orderProducts);
+                        shopService.getOrderRepo().addOrder(orderFromConsole);
+                        shopService.placeOrder(orderFromConsole.orderId());
+                        orderProducts.clear();
+                    }
+                }
+            }
+            if (givenProduct.equals("a")) {
+                break;
+            }
+            // Produkte einfügen in Order
+            String[] productIdAndCount = givenProduct.split(",");
+            if (productIdAndCount.length >= 2) {
+                System.out.println("STRING: " + productIdAndCount[0] + " " + productIdAndCount[1]);
+                //Erstelle Product
+                Product productToCheck = shopService.getProductRepo().getProduct(productIdAndCount[0].trim());
+                //Menge Checken
+                if (Integer.parseInt(productIdAndCount[1].trim()) > productToCheck.quantity()) {
+                    System.out.println("Menge zu Groß. Verfügbare Menge: " + productToCheck.quantity());
+
+                } else {
+                    System.out.println("Menge passt");
+                    for (int i = 0; i < Integer.parseInt(productIdAndCount[1].trim()); i++) {
+                        orderProducts.add(productToCheck);
+                    }
+                }
+                productsToCheckBeforeOrder = shopService.getProductRepo().getAllProducts();
+            }
+
+            System.out.println("Menge eingeben und enter: ");
+        }
+
+
 
         /*
 
