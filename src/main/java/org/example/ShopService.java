@@ -8,11 +8,17 @@ public class ShopService {
     //Properties
     private ProductRepo productRepo;
     private OrderRepoInterface orderRepo;
+
     //private OrderRepoInterface orderMapRepo;
 
     //Constructor
     public ShopService(OrderRepoInterface orderRepo) {
         this.productRepo = new ProductRepo();
+        this.orderRepo = orderRepo;
+    }
+
+    public ShopService(OrderRepoInterface orderRepo, List<String[]> listProducts) {
+        this.productRepo = new ProductRepo(listProducts);
         this.orderRepo = orderRepo;
     }
 

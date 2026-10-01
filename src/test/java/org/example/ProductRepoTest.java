@@ -2,34 +2,92 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductRepoTest {
 
     @Test
-    void removeProduct_ShouldNotRemoveByGivenEmptyId() {
-        ProductRepo repo = new ProductRepo();
+    void removeProduct_ShouldNotRemoveByGivenEmptyId() throws IOException {
+        List<String> lines = Files.readAllLines(Path.of("products_100.csv"));
+
+        List<String[]> dataList = new ArrayList<>();
+
+        // Erste Zeile überspringen (Header)
+        for (int i = 1; i < lines.size(); i++) {
+            dataList.add(lines.get(i).split(","));
+        }
+
+        // ShopService mit den CSV-Daten erstellen
+        OrderRepoInterface orderListRepo = new OrderListRepo();
+        ShopService shopService = new ShopService(orderListRepo, dataList);
+
+        ProductRepo repo = shopService.getProductRepo();
         repo.removeProduct("");
-        assertEquals(10, repo.getListProducts().size());
+        assertEquals(100, repo.getListProducts().size());
     }
 
     @Test
-    void removeProduct_ShouldRemoveByGivenAvailableProductId() {
-        ProductRepo repo = new ProductRepo();
+    void removeProduct_ShouldRemoveByGivenAvailableProductId() throws IOException {
+        List<String> lines = Files.readAllLines(Path.of("products_100.csv"));
+
+        List<String[]> dataList = new ArrayList<>();
+
+        // Erste Zeile überspringen (Header)
+        for (int i = 1; i < lines.size(); i++) {
+            dataList.add(lines.get(i).split(","));
+        }
+
+        // ShopService mit den CSV-Daten erstellen
+        OrderRepoInterface orderListRepo = new OrderListRepo();
+        ShopService shopService = new ShopService(orderListRepo, dataList);
+
+        ProductRepo repo = shopService.getProductRepo();
         repo.removeProduct("15");
-        assertEquals(9, repo.getListProducts().size());
+        assertEquals(99, repo.getListProducts().size());
     }
 
     @Test
-    void removeProduct_ShouldNotRemoveByGivenANullProductId() {
-        ProductRepo repo = new ProductRepo();
+    void removeProduct_ShouldNotRemoveByGivenANullProductId() throws IOException {
+        List<String> lines = Files.readAllLines(Path.of("products_100.csv"));
+
+        List<String[]> dataList = new ArrayList<>();
+
+        // Erste Zeile überspringen (Header)
+        for (int i = 1; i < lines.size(); i++) {
+            dataList.add(lines.get(i).split(","));
+        }
+
+        // ShopService mit den CSV-Daten erstellen
+        OrderRepoInterface orderListRepo = new OrderListRepo();
+        ShopService shopService = new ShopService(orderListRepo, dataList);
+
+        ProductRepo repo = shopService.getProductRepo();
         repo.removeProduct(null);
-        assertEquals(10, repo.getListProducts().size());
+        assertEquals(100, repo.getListProducts().size());
     }
 
     @Test
-    void removeProduct_ShouldNotRemoveByGivenAllProductIds() {
-        ProductRepo repo = new ProductRepo();
+    void removeProduct_ShouldRemoveByGivenAllProductIds() throws IOException {
+        List<String> lines = Files.readAllLines(Path.of("products_100.csv"));
+
+        List<String[]> dataList = new ArrayList<>();
+
+        // Erste Zeile überspringen (Header)
+        for (int i = 1; i < lines.size(); i++) {
+            dataList.add(lines.get(i).split(","));
+        }
+
+        // ShopService mit den CSV-Daten erstellen
+        OrderRepoInterface orderListRepo = new OrderListRepo();
+        ShopService shopService = new ShopService(orderListRepo, dataList);
+
+        ProductRepo repo = shopService.getProductRepo();
         repo.removeProduct("15");
         repo.removeProduct("20");
         repo.removeProduct("87");
@@ -41,18 +99,31 @@ class ProductRepoTest {
         repo.removeProduct("65");
         repo.removeProduct("17");
 
-        assertEquals(0, repo.getListProducts().size());
+        assertEquals(90, repo.getListProducts().size());
     }
 
     @Test
-    void removeProduct_ShouldRemoveOneTimeByGivenSameIdMoreTimes() {
-        ProductRepo repo = new ProductRepo();
+    void removeProduct_ShouldRemoveOneTimeByGivenSameIdMoreTimes() throws IOException {
+        List<String> lines = Files.readAllLines(Path.of("products_100.csv"));
+
+        List<String[]> dataList = new ArrayList<>();
+
+        // Erste Zeile überspringen (Header)
+        for (int i = 1; i < lines.size(); i++) {
+            dataList.add(lines.get(i).split(","));
+        }
+
+        // ShopService mit den CSV-Daten erstellen
+        OrderRepoInterface orderListRepo = new OrderListRepo();
+        ShopService shopService = new ShopService(orderListRepo, dataList);
+
+        ProductRepo repo = shopService.getProductRepo();
         repo.removeProduct("15");
         repo.removeProduct("15");
         repo.removeProduct("15");
         repo.removeProduct("15");
 
-        assertEquals(9, repo.getListProducts().size());
+        assertEquals(99, repo.getListProducts().size());
     }
 
     @Test
@@ -60,24 +131,63 @@ class ProductRepoTest {
     }
 
     @Test
-    void getProduct_ShouldReturnValidProductByGivenValidProductId() {
-        ProductRepo repo = new ProductRepo();
+    void getProduct_ShouldReturnValidProductByGivenValidProductId() throws IOException {
+        List<String> lines = Files.readAllLines(Path.of("products_100.csv"));
+
+        List<String[]> dataList = new ArrayList<>();
+
+        // Erste Zeile überspringen (Header)
+        for (int i = 1; i < lines.size(); i++) {
+            dataList.add(lines.get(i).split(","));
+        }
+
+        // ShopService mit den CSV-Daten erstellen
+        OrderRepoInterface orderListRepo = new OrderListRepo();
+        ShopService shopService = new ShopService(orderListRepo, dataList);
+
+        ProductRepo repo = shopService.getProductRepo();
 
         assertEquals(repo.getListProducts().getFirst(),
-                repo.getProduct("15"));
+                repo.getProduct("1"));
     }
 
     @Test
-    void getProduct_ShouldReturnValidProductByGivenNonValidProductId() {
-        ProductRepo repo = new ProductRepo();
+    void getProduct_ShouldReturnValidProductByGivenNonValidProductId() throws IOException {
+        List<String> lines = Files.readAllLines(Path.of("products_100.csv"));
+
+        List<String[]> dataList = new ArrayList<>();
+
+        // Erste Zeile überspringen (Header)
+        for (int i = 1; i < lines.size(); i++) {
+            dataList.add(lines.get(i).split(","));
+        }
+
+        // ShopService mit den CSV-Daten erstellen
+        OrderRepoInterface orderListRepo = new OrderListRepo();
+        ShopService shopService = new ShopService(orderListRepo, dataList);
+
+        ProductRepo repo = shopService.getProductRepo();
 
         assertNotEquals(repo.getListProducts().getFirst(),
-                repo.getProduct("16"));
+                repo.getProduct("2"));
     }
 
     @Test
-    void getProduct_ShouldReturnValidProductByGivenEmptyProductId() {
-        ProductRepo repo = new ProductRepo();
+    void getProduct_ShouldReturnValidProductByGivenEmptyProductId() throws IOException {
+        List<String> lines = Files.readAllLines(Path.of("products_100.csv"));
+
+        List<String[]> dataList = new ArrayList<>();
+
+        // Erste Zeile überspringen (Header)
+        for (int i = 1; i < lines.size(); i++) {
+            dataList.add(lines.get(i).split(","));
+        }
+
+        // ShopService mit den CSV-Daten erstellen
+        OrderRepoInterface orderListRepo = new OrderListRepo();
+        ShopService shopService = new ShopService(orderListRepo, dataList);
+
+        ProductRepo repo = shopService.getProductRepo();
 
         assertNotEquals(repo.getListProducts().getFirst(),
                 repo.getProduct(""));
@@ -91,8 +201,21 @@ class ProductRepoTest {
     }
 
     @Test
-    void getProduct_ShouldReturnValidProductByGivenValidProductIdByList() {
-        ProductRepo repo = new ProductRepo();
+    void getProduct_ShouldReturnValidProductByGivenValidProductIdByList() throws IOException {
+        List<String> lines = Files.readAllLines(Path.of("products_100.csv"));
+
+        List<String[]> dataList = new ArrayList<>();
+
+        // Erste Zeile überspringen (Header)
+        for (int i = 1; i < lines.size(); i++) {
+            dataList.add(lines.get(i).split(","));
+        }
+
+        // ShopService mit den CSV-Daten erstellen
+        OrderRepoInterface orderListRepo = new OrderListRepo();
+        ShopService shopService = new ShopService(orderListRepo, dataList);
+
+        ProductRepo repo = shopService.getProductRepo();
         assertNotNull(repo.getProduct("15"));
     }
 
@@ -104,18 +227,45 @@ class ProductRepoTest {
     }
 
     @Test
-    void updateStatusOfProduct_CheckUpdatingQuantityByProductsWithOneQuantities() {
-        ProductRepo repo = new ProductRepo();
+    void updateStatusOfProduct_CheckUpdatingQuantityByProductsWithOneQuantities() throws IOException {
+        List<String> lines = Files.readAllLines(Path.of("products_100.csv"));
+
+        List<String[]> dataList = new ArrayList<>();
+
+        // Erste Zeile überspringen (Header)
+        for (int i = 1; i < lines.size(); i++) {
+            dataList.add(lines.get(i).split(","));
+        }
+
+        // ShopService mit den CSV-Daten erstellen
+        OrderRepoInterface orderListRepo = new OrderListRepo();
+        ShopService shopService = new ShopService(orderListRepo, dataList);
+
+        ProductRepo repo = shopService.getProductRepo();
+
         int actualQuantity = repo.getListProducts().get(4).quantity();
         repo.updateStatusOfProduct(4);
 
-        assertEquals(0,
+        assertEquals(actualQuantity - 1,
                 repo.getListProducts().get(4).quantity());
     }
 
     @Test
-    void updateStatusOfProduct_CheckUpdatingQuantityByProductsWithQuantitiesGreaterZero() {
-        ProductRepo repo = new ProductRepo();
+    void updateStatusOfProduct_CheckUpdatingQuantityByProductsWithQuantitiesGreaterZero() throws IOException {
+        List<String> lines = Files.readAllLines(Path.of("products_100.csv"));
+
+        List<String[]> dataList = new ArrayList<>();
+
+        // Erste Zeile überspringen (Header)
+        for (int i = 1; i < lines.size(); i++) {
+            dataList.add(lines.get(i).split(","));
+        }
+
+        // ShopService mit den CSV-Daten erstellen
+        OrderRepoInterface orderListRepo = new OrderListRepo();
+        ShopService shopService = new ShopService(orderListRepo, dataList);
+
+        ProductRepo repo = shopService.getProductRepo();
         int actualQuantity = repo.getListProducts().get(0).quantity();
         repo.updateStatusOfProduct(0);
 
