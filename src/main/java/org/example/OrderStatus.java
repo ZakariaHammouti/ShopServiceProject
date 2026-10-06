@@ -1,6 +1,6 @@
 package org.example;
 
-
+//Bestellstatus
 public enum OrderStatus {
     PROCESSING("In Bearbeitung"),
     IN_DELIVERY("Versendet"),
