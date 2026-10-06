@@ -18,7 +18,7 @@ public class Main {
         //System.out.println(shopService.getProductRepo().getListProducts());
         int size = shopService.getProductRepo().getListProducts().size();
         System.out.println("size" + size);
-        
+
         for (int i = 0; i < size; i++) {
             System.out.println(shopService.getProductRepo().getListProducts().get(i));
         }
@@ -53,7 +53,12 @@ public class Main {
                     if (!orderProducts.isEmpty()) {
                         orderFromConsole = new Order(randomOrderIdStr, orderProducts);
                         shopService.getOrderRepo().addOrder(orderFromConsole);
-                        shopService.placeOrder(orderFromConsole.orderId());
+
+                        try {
+                            shopService.placeOrder(orderFromConsole.orderId());
+                        } catch (OrderNotFound e) {
+                            System.out.println("Order Id Not Found");
+                        }
                         orderProducts.clear();
                     }
                 }
@@ -89,16 +94,21 @@ public class Main {
                 String[] productIdAndCount = givenProduct.split(",");
                 if (productIdAndCount.length >= 2) {
                     //Erstelle Product
-                    Product productToCheck = shopService.getProductRepo().getProduct(productIdAndCount[0].trim());
-                    //Menge Checken
-                    if (Integer.parseInt(productIdAndCount[1].trim()) > productToCheck.quantity()) {
-                        System.out.println("Menge zu Groß. Verfügbare Menge: " + productToCheck.quantity());
+                    Optional<Product> result = shopService.getProductRepo().getProduct(productIdAndCount[0].trim());
+                    if (result.isPresent()) {
+                        Product productToCheck = result.get();
+                        //Menge Checken
+                        if (Integer.parseInt(productIdAndCount[1].trim()) > productToCheck.quantity()) {
+                            System.out.println("Menge zu Groß. Verfügbare Menge: " + productToCheck.quantity());
 
-                    } else {
-                        System.out.println("Menge passt");
-                        for (int i = 0; i < Integer.parseInt(productIdAndCount[1].trim()); i++) {
-                            orderProducts.add(productToCheck);
+                        } else {
+                            System.out.println("Menge passt");
+                            for (int i = 0; i < Integer.parseInt(productIdAndCount[1].trim()); i++) {
+                                orderProducts.add(productToCheck);
+                            }
                         }
+                    } else {
+                        System.out.println("Product nicht gefunden");
                     }
 
                 }

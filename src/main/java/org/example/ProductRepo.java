@@ -58,14 +58,15 @@ public class ProductRepo {
         }
     }
 
-    public Product getProduct(String productId) {
+    public Optional<Product> getProduct(String productId) {
 
         for (Product product : getListProducts()) {
             if (productId.equals(product.id())) {
-                return product;
+                return Optional.of(product);
             }
         }
-        return null;
+
+        return Optional.empty();
     }
 
     public boolean isProductNull(String productId) {
@@ -106,8 +107,13 @@ public class ProductRepo {
         }
     }
 
-    public List<Product> getAllProducts() {
-        return this.listProducts;
+    public Optional<List<Product>> getAllProducts() {
+
+        if (this.listProducts.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(this.listProducts);
     }
 
     @Override

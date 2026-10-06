@@ -45,14 +45,14 @@ public class OrderMapRepo implements OrderRepoInterface {
         getOrderMap().remove(orderId);
     }
 
-    public Order getById() {
-        return getById("0");
-    }
-
     @Override
-    public Order getById(String productId) {
+    public Order getById(String productId) throws OrderNotFound {
         //remove later
-        return getOrderMap().get(productId);
+        Order order = getOrderMap().get(productId);
+        if (order == null) {
+            throw new OrderNotFound("Order nicht gefunden: " + productId);
+        }
+        return order;
     }
 
     @Override

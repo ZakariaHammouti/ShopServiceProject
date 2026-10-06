@@ -47,7 +47,7 @@ public class OrderListRepo implements OrderRepoInterface {
     }
 
     @Override
-    public Order getById(String orderId) {
+    public Order getById(String orderId) throws OrderNotFound {
         if (getListOrders() != null) {
             for (int i = 0; i < getListOrders().size(); i++) {
                 if (orderId.equals(getListOrders().get(i).orderId())) {
@@ -55,7 +55,7 @@ public class OrderListRepo implements OrderRepoInterface {
                 }
             }
         }
-        return null;
+        throw new OrderNotFound("Order nicht gefunden: " + orderId);
     }
 
     //Wie viele gleiche Produkte habe ich in meinen Order

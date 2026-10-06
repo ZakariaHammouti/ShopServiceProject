@@ -8,7 +8,7 @@ public interface OrderRepoInterface {
 
     public void removeOrder(String orderId);
 
-    public Order getById(String orderId);
+    public Order getById(String orderId) throws OrderNotFound;
 
     public List<Order> getAll();
 

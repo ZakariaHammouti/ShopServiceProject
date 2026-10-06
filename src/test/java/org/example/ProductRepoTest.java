@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -148,7 +149,7 @@ class ProductRepoTest {
         ProductRepo repo = shopService.getProductRepo();
 
         assertEquals(repo.getListProducts().getFirst(),
-                repo.getProduct("1"));
+                repo.getProduct("1").get());
     }
 
     @Test
@@ -197,7 +198,7 @@ class ProductRepoTest {
     void getProduct_ShouldReturnValidProductByGivenValidProductIdByListEmpty() {
         ProductRepo repo = new ProductRepo();
         repo.getListProducts().clear();
-        assertNull(repo.getProduct("15"));
+        assertEquals(Optional.empty(), repo.getProduct("15"));
     }
 
     @Test

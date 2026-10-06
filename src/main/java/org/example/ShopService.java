@@ -2,6 +2,7 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ShopService {
 
@@ -43,9 +44,10 @@ public class ShopService {
     //Schritt 1: Implementiere eine Methode zum Aufgeben einer neuen Bestellung.
     // Die Artikel werden später unter Angabe der Produkt Id bestellt.
 
-    public boolean placeOrder(String orderId) {
+    public boolean placeOrder(String orderId) throws OrderNotFound {
         //hol die Bestellung mit der ID von OrderRepoList
         Order tmpOrder = getOrderRepo().getById(orderId);
+
         int countProductFound = 0;
 
         if (tmpOrder == null) {
@@ -96,6 +98,22 @@ public class ShopService {
         System.out.println("Produkt mit der ID" +
                 productId + " ist nicht verfügbar: ");
         return false;
+    }
+
+    public Optional<List<Order>> getOrderStatus(OrderStatus status) {
+        if (status == null) {
+            return Optional.empty();
+        }
+
+        List<Order> listOders = new ArrayList<>();
+        listOders = orderRepo.getAll().stream()
+                .filter(order -> status == order.status()).toList();
+
+        if (listOders.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(listOders);
     }
 
 
