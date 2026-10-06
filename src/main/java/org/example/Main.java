@@ -17,7 +17,9 @@ public class Main {
 
         //System.out.println(shopService.getProductRepo().getListProducts());
         int size = shopService.getProductRepo().getListProducts().size();
-        for (int i = 0; i < 20; i++) {
+        System.out.println("size" + size);
+        
+        for (int i = 0; i < size; i++) {
             System.out.println(shopService.getProductRepo().getListProducts().get(i));
         }
         System.out.println("");
