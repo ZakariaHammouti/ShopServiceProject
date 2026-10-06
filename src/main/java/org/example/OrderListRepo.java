@@ -1,6 +1,8 @@
 package org.example;
 
 import java.lang.classfile.MethodSignature;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -40,13 +42,10 @@ public class OrderListRepo implements OrderRepoInterface {
     //Methods
     @Override
     public void addOrder(Order order) {
-
-        //ZonedDataTime
-        ZonedDateTime zonedDateTime = ZonedDateTime.now().withNano(0);
-        // ZonedDateTime zonedDataTime = ZonedDateTime.parse(formattedDate, formattter);
-
+        Instant instant = Instant.now();
+        ZoneId zoneId = ZoneId.systemDefault();
+        ZonedDateTime zonedDateTime = instant.atZone(zoneId).withNano(0);
         Order updatedOrder = order.withOrderTime(zonedDateTime);
-
         this.listOrders.add(updatedOrder);
     }
 

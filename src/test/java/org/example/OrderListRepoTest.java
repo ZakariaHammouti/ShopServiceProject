@@ -137,4 +137,21 @@ class OrderListRepoTest {
         assertEquals(excpected,
                 actual);
     }
+
+    @Test
+    void addOrder_ShouldOnlyUpdateTheDateByGivenOrder() throws OrderNotFound {
+        //Given
+        //Crealie list Orders
+        OrderRepoInterface orderListRepo = new OrderListRepo();
+        ShopService shopService = new ShopService(orderListRepo);
+        List<Product> listOrdererd = new ArrayList<>();
+        listOrdererd.add(new Product("1", "11", 3, true, 3));
+        listOrdererd.add(new Product("2", "22", 3, true, 3));
+        Order order = new Order("123", listOrdererd);
+        Order order2 = new Order("122", listOrdererd);
+        Order order3 = new Order("124", listOrdererd);
+        orderListRepo.addOrder(order3);
+
+        assertNotNull(shopService.getOrderRepo().getById("124").orderTime());
+    }
 }
