@@ -226,4 +226,66 @@ class ShopServiceTest {
         //expected 2 Proccsing orders
         assertTrue(shopService.getOrderStatus(null).isEmpty());
     }
+
+    @Test
+    void updateOrderStatusThrowsException() {
+        OrderRepoInterface orderListRepo = new OrderListRepo();
+        ShopService shopService = new ShopService(orderListRepo);
+        assertThrows(OrderNotFound.class, () -> shopService.updateOrderStatus("", OrderStatus.IN_DELIVERY));
+    }
+
+    @Test
+    void updateOrderStatusThrowsExceptionByOrderNotFound() throws OrderNotFound {
+
+        //Given
+        OrderStatus statusPassToFunction = OrderStatus.IN_DELIVERY;
+        //Crealie list Orders
+        OrderRepoInterface orderListRepo = new OrderListRepo();
+        ShopService shopService = new ShopService(orderListRepo);
+        OrderStatus status = OrderStatus.PROCESSING;
+        List<Product> listOrdererd = new ArrayList<>();
+        listOrdererd.add(new Product("1", "11", 3, true, 3));
+        listOrdererd.add(new Product("2", "22", 3, true, 3));
+        Order order = new Order("123", listOrdererd);
+        Order order2 = new Order("122", listOrdererd);
+        Order order3 = new Order("124", listOrdererd);
+        orderListRepo.addOrder(order);
+        orderListRepo.addOrder(order2);
+        orderListRepo.addOrder(order3);
+
+        assertEquals(statusPassToFunction, shopService.updateOrderStatus("123", OrderStatus.IN_DELIVERY));
+
+    }
+
+    @Test
+    void updateOrderStatusThrowsExceptionByOrderNotFoundLastElementInList() throws OrderNotFound {
+
+        //Given
+        OrderStatus statusPassToFunction = OrderStatus.IN_DELIVERY;
+        //Crealie list Orders
+        OrderRepoInterface orderListRepo = new OrderListRepo();
+        ShopService shopService = new ShopService(orderListRepo);
+        OrderStatus status = OrderStatus.PROCESSING;
+        List<Product> listOrdererd = new ArrayList<>();
+        listOrdererd.add(new Product("1", "11", 3, true, 3));
+        listOrdererd.add(new Product("2", "22", 3, true, 3));
+        Order order = new Order("123", listOrdererd);
+        Order order2 = new Order("122", listOrdererd);
+        Order order3 = new Order("124", listOrdererd);
+        orderListRepo.addOrder(order);
+        orderListRepo.addOrder(order2);
+        orderListRepo.addOrder(order3);
+
+        assertEquals(statusPassToFunction, shopService.updateOrderStatus("124", OrderStatus.IN_DELIVERY));
+        assertEquals(shopService.getOrderRepo().getAll().size(), 3);
+        assertEquals(
+                OrderStatus.PROCESSING,
+                shopService.getOrderRepo().getById("122").status()
+        );
+
+        assertEquals(
+                OrderStatus.PROCESSING,
+                shopService.getOrderRepo().getById("123").status()
+        );
+    }
 }

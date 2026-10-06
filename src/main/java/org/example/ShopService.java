@@ -116,6 +116,24 @@ public class ShopService {
         return Optional.of(listOders);
     }
 
+    public OrderStatus updateOrderStatus(String orderId, OrderStatus newStatus) throws OrderNotFound {
+        {
+            Order order = getOrderRepo().getById(orderId);
+
+            for (int index = 0; index < getOrderRepo().getAll().size(); index++) {
+
+                order = getOrderRepo().getAll().get(index);
+
+                if (order.orderId().equals(orderId)) {
+                    Order updatedOrder = order.withStatus(newStatus);
+                    getOrderRepo().getAll().set(index, updatedOrder);
+
+                    return updatedOrder.status();
+                }
+            }
+        }
+        return newStatus;
+    }
 
     @Override
     public String toString() {

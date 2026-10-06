@@ -27,7 +27,12 @@ public class OrderListRepo implements OrderRepoInterface {
 
     @Override
     public void cutToHistoryList(Order order) {
-
+        if (order != null) {
+            if (getListOrders() != null && getListOrdersHistory() != null) {
+                getListOrdersHistory().add(order);
+                removeOrder(order.orderId());
+            }
+        }
     }
 
     //Methods
