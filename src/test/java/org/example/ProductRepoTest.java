@@ -26,7 +26,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
         repo.removeProduct("");
@@ -46,7 +46,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
         repo.removeProduct("15");
@@ -66,7 +66,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
         repo.removeProduct(null);
@@ -86,7 +86,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
         repo.removeProduct("15");
@@ -116,7 +116,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
         repo.removeProduct("15");
@@ -144,7 +144,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
 
@@ -165,7 +165,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
 
@@ -186,7 +186,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
 
@@ -214,7 +214,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
         assertNotNull(repo.getProduct("15"));
@@ -240,7 +240,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
 
@@ -264,7 +264,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
         int actualQuantity = repo.getListProducts().get(0).quantity();

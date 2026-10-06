@@ -5,15 +5,16 @@ import org.w3c.dom.ls.LSOutput;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.UUID;
 
 public class Main {
     static void main(String[] args) throws IOException {
-
+        
         CsvReader csvReader = new CsvReader();
         List<String[]> tmpList = csvReader.getLines();
 
         OrderRepoInterface orderMapRepo = new OrderMapRepo();
-        ShopService shopService = new ShopService(orderMapRepo, tmpList);
+        ShopService shopService = new ShopService(orderMapRepo, tmpList, Main.IdService());
 
         //System.out.println(shopService.getProductRepo().getListProducts());
         int size = shopService.getProductRepo().getListProducts().size();
@@ -115,5 +116,10 @@ public class Main {
             }
             System.out.println("Menge eingeben und enter: ");
         }
+    }
+
+    public static String IdService() {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString();
     }
 }

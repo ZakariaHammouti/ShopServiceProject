@@ -54,7 +54,7 @@ class ShopServiceTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         List<Product> listOfSelectedProducts1 = new ArrayList<>();
         Optional<Product> result = shopService.getProductRepo().getProduct("1");
@@ -79,7 +79,7 @@ class ShopServiceTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         List<Product> listOfSelectedProducts1 = new ArrayList<>();
         listOfSelectedProducts1.add(shopService.getProductRepo().getListProducts().get(0));
@@ -97,7 +97,7 @@ class ShopServiceTest {
         List<String[]> data = new ArrayList<>();
         String[] dummyProduct = {"1", "Schokolade", "2.19"};
         data.add(dummyProduct);
-        ShopService shopService = new ShopService(orderListRepo, data);
+        ShopService shopService = new ShopService(orderListRepo, data, "");
 
 
         List<Product> listOfSelectedProducts1 = new ArrayList<>();
@@ -118,7 +118,7 @@ class ShopServiceTest {
         List<String[]> data = new ArrayList<>();
         String[] dummyProduct = {"1", "Schokolade", "2.19"};
         data.add(dummyProduct);
-        ShopService shopService = new ShopService(orderListRepo, data);
+        ShopService shopService = new ShopService(orderListRepo, data, "");
         List<Product> listOfSelectedProducts1 = new ArrayList<>();
         Product result = shopService.getProductRepo().getProduct("1").
                 orElse(null);
@@ -152,7 +152,7 @@ class ShopServiceTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         assertTrue(shopService.isAvailable("15"));
     }

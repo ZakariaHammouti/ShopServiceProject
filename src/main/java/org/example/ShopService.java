@@ -1,5 +1,7 @@
 package org.example;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -9,7 +11,7 @@ public class ShopService {
     //Properties
     private ProductRepo productRepo;
     private OrderRepoInterface orderRepo;
-
+    private String servicId;
     //private OrderRepoInterface orderMapRepo;
 
     //Constructor
@@ -18,9 +20,15 @@ public class ShopService {
         this.orderRepo = orderRepo;
     }
 
-    public ShopService(OrderRepoInterface orderRepo, List<String[]> listProducts) {
+    public String getServicId() {
+        return servicId;
+    }
+
+    public ShopService(OrderRepoInterface orderRepo, List<String[]> listProducts,
+                       String serviceId) {
         this.productRepo = new ProductRepo(listProducts);
         this.orderRepo = orderRepo;
+        this.servicId = serviceId;
     }
 
     //Getter und Setter

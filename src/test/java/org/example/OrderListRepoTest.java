@@ -71,7 +71,7 @@ class OrderListRepoTest {
         List<String[]> data = new ArrayList<>();
         String[] dummyProduct = {"1", "Schokolade", "2.19"};
         data.add(dummyProduct);
-        ShopService shopService = new ShopService(orderListRepo, data);
+        ShopService shopService = new ShopService(orderListRepo, data, "");
 
 
         List<Product> listOfSelectedProducts1 = new ArrayList<>();
@@ -94,7 +94,7 @@ class OrderListRepoTest {
         List<String[]> data = new ArrayList<>();
         String[] dummyProduct = {"1", "Schokolade", "2.19"};
         data.add(dummyProduct);
-        ShopService shopService = new ShopService(orderListRepo, data);
+        ShopService shopService = new ShopService(orderListRepo, data, "");
 
         List<Product> listOfSelectedProducts1 = new ArrayList<>();
         Product result = shopService.getProductRepo().getProduct("15").
@@ -117,7 +117,7 @@ class OrderListRepoTest {
         List<String[]> data = new ArrayList<>();
         String[] dummyProduct = {"1", "Schokolade", "2.19"};
         data.add(dummyProduct);
-        ShopService shopService = new ShopService(orderListRepo, data);
+        ShopService shopService = new ShopService(orderListRepo, data, "");
 
         List<Product> listOfSelectedProducts1 = new ArrayList<>();
         Product result = shopService.getProductRepo().getProduct("15").
