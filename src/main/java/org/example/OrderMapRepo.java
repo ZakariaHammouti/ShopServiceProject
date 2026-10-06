@@ -1,5 +1,7 @@
 package org.example;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +39,14 @@ public class OrderMapRepo implements OrderRepoInterface {
     //Methods
     @Override
     public void addOrder(Order order) {
-        getOrderMap().put(order.orderId(), order);
+        //ZonedDataTime
+        String formattedDate = ZonedDateTime.now()
+                .format(DateTimeFormatter.ofPattern("HH:mm EEEE, dd. MMMM yy"));
+        ZonedDateTime zonedDataTime = ZonedDateTime.parse(formattedDate);
+
+        Order updatedOrder = order.withOrderTime(zonedDataTime);
+
+        getOrderMap().put(updatedOrder.orderId(), updatedOrder);
     }
 
     @Override

@@ -2,6 +2,8 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -100,10 +102,39 @@ class OrderListRepoTest {
 
         listOfSelectedProducts1.add(result);
 
-        Order order = new Order("2222", listOfSelectedProducts1, OrderStatus.PROCESSING);
-        Order order2 = new Order("1111", listOfSelectedProducts1, OrderStatus.PROCESSING);
+        Order order = new Order("2222", listOfSelectedProducts1, OrderStatus.PROCESSING, ZonedDateTime.now());
+        Order order2 = new Order("1111", listOfSelectedProducts1, OrderStatus.PROCESSING, ZonedDateTime.now());
         orderListRepo.addOrder(order);
         orderListRepo.removeOrder(order.orderId());
         assertThrows(OrderNotFound.class, () -> orderListRepo.getById(order.orderId()));
+    }
+
+    @Test
+    void addOrder_ShouldSetTimeToNow() throws OrderNotFound {
+        OrderRepoInterface orderListRepo = new OrderListRepo();
+        ProductRepo productRepo = new ProductRepo();
+        //4000000000020,Schokolade Zartbitter,2.19
+        List<String[]> data = new ArrayList<>();
+        String[] dummyProduct = {"1", "Schokolade", "2.19"};
+        data.add(dummyProduct);
+        ShopService shopService = new ShopService(orderListRepo, data);
+
+        List<Product> listOfSelectedProducts1 = new ArrayList<>();
+        Product result = shopService.getProductRepo().getProduct("15").
+                orElse(null);
+
+        listOfSelectedProducts1.add(result);
+
+        Order order = new Order("2222", listOfSelectedProducts1);
+        Order order2 = new Order("1111", listOfSelectedProducts1);
+
+        orderListRepo.addOrder(order);
+
+        ZonedDateTime excpected = ZonedDateTime.now().withNano(0);
+        ZonedDateTime actual =
+                orderListRepo.getById(order.orderId()).orderTime();
+
+        assertEquals(excpected,
+                actual);
     }
 }
