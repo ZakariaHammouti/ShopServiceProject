@@ -3,8 +3,6 @@ package org.example;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +61,21 @@ public class OrderMapRepo implements OrderRepoInterface {
             throw new OrderNotFound("Order nicht gefunden: " + productId);
         }
         return order;
+    }
+
+    @Override
+    public OrderStatus updateOrderStatus(
+            Order updatedOrder
+    ) throws OrderNotFound {
+
+        if (!orderMap.containsKey(updatedOrder.orderId())) {
+            throw new OrderNotFound(
+                    "Order nicht gefunden: " + updatedOrder.orderId()
+            );
+        }
+
+        orderMap.put(updatedOrder.orderId(), updatedOrder);
+        return orderMap.get(updatedOrder.orderId()).status();
     }
 
     @Override

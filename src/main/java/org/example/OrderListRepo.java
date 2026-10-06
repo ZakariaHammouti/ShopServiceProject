@@ -30,6 +30,22 @@ public class OrderListRepo implements OrderRepoInterface {
 
 
     @Override
+    public OrderStatus updateOrderStatus(Order updatedOrder)
+            throws OrderNotFound {
+        for (int i = 0; i < listOrders.size(); i++) {
+
+            if (listOrders.get(i).orderId().equals(updatedOrder.orderId())) {
+                listOrders.set(i, updatedOrder);
+                return listOrders.get(i).status();
+            }
+        }
+
+        throw new OrderNotFound(
+                "Order nicht gefunden: " + updatedOrder.orderId()
+        );
+    }
+
+    @Override
     public void cutToHistoryList(Order order) {
         if (order != null) {
             if (getListOrders() != null && getListOrdersHistory() != null) {

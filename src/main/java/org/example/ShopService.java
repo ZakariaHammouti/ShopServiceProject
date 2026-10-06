@@ -74,6 +74,7 @@ public class ShopService {
         }
         if (products.size() == countProductFound) {
             System.out.println("Alle Produkte sind auf Lager, Bestellung erfolgreich");
+            updateOrderStatus(orderId, OrderStatus.COMPLETED);
             return true;
         } else {
             System.out.println("Nicht alle Produkte sind auf Lager, Bestellung nicht erfolgreich");
@@ -128,19 +129,12 @@ public class ShopService {
         {
             Order order = getOrderRepo().getById(orderId);
 
-            for (int index = 0; index < getOrderRepo().getAll().size(); index++) {
+            Order updatedOrder = order.withStatus(newStatus);
 
-                order = getOrderRepo().getAll().get(index);
+            getOrderRepo().updateOrderStatus(updatedOrder);
 
-                if (order.orderId().equals(orderId)) {
-                    Order updatedOrder = order.withStatus(newStatus);
-                    getOrderRepo().getAll().set(index, updatedOrder);
-
-                    return updatedOrder.status();
-                }
-            }
+            return updatedOrder.status();
         }
-        return newStatus;
     }
 
     @Override

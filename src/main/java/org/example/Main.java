@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class Main {
     static void main(String[] args) throws IOException {
-        
+
         CsvReader csvReader = new CsvReader();
         List<String[]> tmpList = csvReader.getLines();
 
@@ -25,33 +25,39 @@ public class Main {
         }
         System.out.println("");
 
-        System.out.println("Wähle Produkte einzeln aus mit: produktId, quantity");
-        System.out.println("Beispiel: productId1, quantity1 Enter");
 
         List<Product> orderProducts = new ArrayList<>() {
         };
         List<Product> productsToCheckBeforeOrder = new ArrayList<>() {
         };
 
-        Random random = new Random();
-        int randomOrderId = random.nextInt(10001) + 10000;//[10000, 20000]
-        String randomOrderIdStr = String.valueOf(randomOrderId);
+        //Random random = new Random();
+        //UUID uuid = UUID.randomUUID();
+        // int randomOrderId = random.nextInt(10001) + 10000;//[10000, 20000]
+        // String randomOrderIdStr = uuid.toString();
 
         Order orderFromConsole;
 
         Scanner scanner = new Scanner(System.in);
         String givenProduct = "";
         while (true) {
-            System.out.println("Abbrechen mit: a und enter: ");
-            System.out.println("Bestellen mit: b und enter: ");
-            System.out.println("WarenEingang mit c: gefolgt von Product Id und Menge mit Komma dazwischen und enter: ");
-            System.out.println("Beispiel: c, productId1, quantity1, productId2, quantity2,...");
-            System.out.println("################");
+            System.out.println("Wähle Produkte einzeln aus mit: produktId, quantity");
+            System.out.println("Beispiel: productId1, quantity1 Enter");
+            System.out.println("#####################################");
+            System.out.println("a: Abbrechen und Programm beenden");
+            System.out.println("b: Bestellug bestätigen");
+            System.out.println("c: WarenEingang gefolgt von Product Id und Menge mit Komma dazwischen und enter: ");
+            System.out.println("    Beispiel: c, productId1, quantity1, productId2, quantity2,...");
+            System.out.println("#####################################");
+            System.out.println("d: OrderListe ausgeben");
+            System.out.println("e: Order-History-Liste ausgeben");
 
             givenProduct = scanner.nextLine();
             if (givenProduct.equals("b")) {
                 if (orderProducts != null) {
                     if (!orderProducts.isEmpty()) {
+                        UUID uuid = UUID.randomUUID();
+                        String randomOrderIdStr = uuid.toString();
                         orderFromConsole = new Order(randomOrderIdStr, orderProducts);
                         shopService.getOrderRepo().addOrder(orderFromConsole);
 
@@ -90,6 +96,13 @@ public class Main {
                             shopService.getProductRepo().getAllProducts());
                 }
             }
+            if (givenProduct.startsWith("d")) {
+                System.out.println("OrderList: " + shopService.getOrderRepo().getAll());
+            }
+            if (givenProduct.startsWith("e")) {
+                System.out.println("History-List: " + shopService.getOrderRepo().getAllHistory());
+            }
+
             // Produkte einfügen in Order
             else {
                 String[] productIdAndCount = givenProduct.split(",");
