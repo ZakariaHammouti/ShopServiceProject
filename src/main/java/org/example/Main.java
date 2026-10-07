@@ -41,17 +41,35 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         String givenProduct = "";
         while (true) {
-            System.out.println("Wähle Produkte einzeln aus mit: produktId, quantity");
-            System.out.println("Beispiel: productId1, quantity1 Enter");
-            System.out.println("#####################################");
-            System.out.println("a: Abbrechen und Programm beenden");
-            System.out.println("b: Bestellug bestätigen");
-            System.out.println("c: WarenEingang gefolgt von Product Id und Menge mit Komma dazwischen und enter: ");
-            System.out.println("    Beispiel: c, productId1, quantity1, productId2, quantity2,...");
-            System.out.println("#####################################");
-            System.out.println("d: OrderListe ausgeben");
-            System.out.println("e: Order-History-Liste ausgeben");
-
+            System.out.println("Template created by KI");
+            System.out.println("""
+                    ╔══════════════════════════════════════════════╗
+                    ║              🛒 SHOP SERVICE                 ║
+                    ╠══════════════════════════════════════════════╣
+                    ║ PRODUKTE AUSWÄHLEN                           ║
+                    ║                                              ║
+                    ║ productId, quantity                          ║
+                    ║ Beispiel: 1, 2  Enter                                                              ║
+                    ╠══════════════════════════════════════════════╣
+                    ║ BESTELLUNG                                   ║
+                    ║                                              ║
+                    ║ a  → Bestellung abbrechen                    ║
+                    ║ b  → Bestellung in Bestellungsliste einfügen ║
+                    ╠══════════════════════════════════════════════╣
+                    ║ WARENEINGANG                                 ║
+                    ║                                              ║
+                    ║ c, productId, quantity                       ║
+                    ║ Beispiel: c, 1, 22 ENTER                     ║
+                    ║      und Order ID vergeben                                                      
+                                                                   ║
+                    ╠══════════════════════════════════════════════╣
+                    ║ BESTELLUNGEN                                 ║
+                    ║                                              ║
+                    ║ d  → Bestellungen "Nach Status sortiert"  anzeigen ║ 
+                    ║ f, orderId → Bestellung versenden            ║
+                    ║ g, orderId → Bestellung abschließen          ║
+                    ╚══════════════════════════════════════════════╝
+                    """);
             givenProduct = scanner.nextLine();
             if (givenProduct.equals("b")) {
                 if (orderProducts != null) {
@@ -60,13 +78,7 @@ public class Main {
                         String randomOrderIdStr = uuid.toString();
                         orderFromConsole = new Order(randomOrderIdStr, orderProducts);
                         shopService.getOrderRepo().addOrder(orderFromConsole);
-
-                        try {
-                            shopService.placeOrder(orderFromConsole.orderId());
-                        } catch (OrderNotFound e) {
-                            System.out.println("Order Id Not Found");
-                        }
-                        orderProducts.clear();
+                        orderProducts = new ArrayList<>();
                     }
                 }
             }
@@ -97,13 +109,41 @@ public class Main {
                 }
             }
             if (givenProduct.startsWith("d")) {
-                System.out.println("OrderList: " + shopService.getOrderRepo().getAll());
+                System.out.println("In Bearbeitung:");
+                shopService.getOrderRepo().getAll().stream()
+                        .filter(order -> order.status() == OrderStatus.PROCESSING).forEach(System.out::println);
+               /* System.out.println("OrderList: " + shopService.getOrderRepo().getAll().stream()
+                        .map(order -> order.product()).toList());*/
+                System.out.println("Versendet:");
+                shopService.getOrderRepo().getAll().stream()
+                        .filter(order -> order.status() == OrderStatus.IN_DELIVERY).forEach(System.out::println);
+
+                System.out.println("Abgeschlossen:");
+                shopService.getOrderRepo().getAll().stream()
+                        .filter(order -> order.status() == OrderStatus.COMPLETED).forEach(System.out::println);
             }
-            if (givenProduct.startsWith("e")) {
-                System.out.println("History-List: " + shopService.getOrderRepo().getAllHistory());
+            if (givenProduct.startsWith("f")) {
+                System.out.println("Order raussuchen und PlaceOrder starten");
+                String[] getOrderIdFromConsole = givenProduct.split(",");
+                try {
+                    shopService.placeOrder(getOrderIdFromConsole[1].trim());
+                } catch (OrderNotFound e) {
+                    System.out.println("Order Id Not Found");
+                }
+            }
+            if (givenProduct.startsWith("g")) {
+                System.out.println("Order auf completed setzen");
+                String[] getOrderIdFromConsole = givenProduct.split(",");
+                try {
+                    if (shopService.getOrderRepo().getById(getOrderIdFromConsole[1].trim()).status().equals(OrderStatus.IN_DELIVERY)) {
+                        shopService.updateOrderStatus(getOrderIdFromConsole[1].trim(), OrderStatus.COMPLETED);
+                    }
+                } catch (OrderNotFound e) {
+                    System.out.println("Order Id Not Found");
+                }
             }
 
-            // Produkte einfügen in Order
+            // Produkte einfügen in temporäre Liste
             else {
                 String[] productIdAndCount = givenProduct.split(",");
                 if (productIdAndCount.length >= 2) {

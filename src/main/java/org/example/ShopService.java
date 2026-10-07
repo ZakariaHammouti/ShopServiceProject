@@ -74,7 +74,7 @@ public class ShopService {
         }
         if (products.size() == countProductFound) {
             System.out.println("Alle Produkte sind auf Lager, Bestellung erfolgreich");
-            updateOrderStatus(orderId, OrderStatus.COMPLETED);
+            updateOrderStatus(orderId, OrderStatus.IN_DELIVERY);
             return true;
         } else {
             System.out.println("Nicht alle Produkte sind auf Lager, Bestellung nicht erfolgreich");
