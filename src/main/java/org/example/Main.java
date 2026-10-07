@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.UUID;
 
 public class Main {
-    static void main(String[] args) throws IOException {
+    static void main(String[] args) throws IOException, OrderNotFound {
 
         String RED = "\u001B[31m";
         String YELLOW = "\u001B[33m";
@@ -138,23 +138,32 @@ public class Main {
                         .filter(order -> order.status() == OrderStatus.COMPLETED).forEach(System.out::println);
             }
             if (givenProduct.startsWith("f")) {
+                String consoleInput = "";
                 shopService.getOrderRepo().getAll().stream()
                         .filter(order -> order.status() == OrderStatus.PROCESSING)
                         .forEach(order -> System.out.
                                 println(order.orderId() + "  " + order.status()));
 
                 System.out.println("Um zu bestellen, kopiere eine Order ID dann Enter");
+                if (!shopService.getOrderRepo().getAll().stream()
+                        .filter(order -> order.status() == OrderStatus.PROCESSING).toList().isEmpty()) {
+                    consoleInput = userScanner.nextLine();
 
-                String consoleInput = userScanner.nextLine();
-
-                //String[] getOrderIdFromConsole = givenProduct.split(",");
-                try {
-                    shopService.placeOrder(consoleInput.trim());
-                } catch (OrderNotFound e) {
-                    System.out.println("Order Id Not Found");
+                    //String[] getOrderIdFromConsole = givenProduct.split(",");
+                    if (shopService.getOrderRepo().getById(consoleInput).status().equals(OrderStatus.PROCESSING)) {
+                        try {
+                            shopService.placeOrder(consoleInput.trim());
+                        } catch (OrderNotFound e) {
+                            System.out.println("Order Id Not Found");
+                        }
+                    }
+                } else {
+                    System.out.println(RED + "Bestellung hat nicht den Status PROCESSING, Bitte wähle von den " +
+                            "vorgeschlagenen IDs aus" + RESET);
                 }
             }
             if (givenProduct.startsWith("g")) {
+                String consoleInput = "";
                 shopService.getOrderRepo().getAll().stream()
                         .filter(order -> order.status() == OrderStatus.IN_DELIVERY)
                         .forEach(order -> System.out.
@@ -162,16 +171,23 @@ public class Main {
 
                 System.out.println("Welche Bestellungen wurden zugestellt?");
                 System.out.println("kopiere eine Order ID dann Enter");
+                if (!shopService.getOrderRepo().getAll().stream()
+                        .filter(order -> order.status() == OrderStatus.IN_DELIVERY).toList().isEmpty()) {
+                    consoleInput = userScanner.nextLine();
 
-                String consoleInput = userScanner.nextLine();
-
-                //String[] getOrderIdFromConsole = consoleInput.split(",");
-                try {
-                    if (shopService.getOrderRepo().getById(consoleInput.trim()).status().equals(OrderStatus.IN_DELIVERY)) {
-                        shopService.updateOrderStatus(consoleInput.trim(), OrderStatus.COMPLETED);
+                    //String[] getOrderIdFromConsole = consoleInput.split(",");
+                    if (shopService.getOrderRepo().getById(consoleInput).status().equals(OrderStatus.IN_DELIVERY)) {
+                        try {
+                            if (shopService.getOrderRepo().getById(consoleInput.trim()).status().equals(OrderStatus.IN_DELIVERY)) {
+                                shopService.updateOrderStatus(consoleInput.trim(), OrderStatus.COMPLETED);
+                            }
+                        } catch (OrderNotFound e) {
+                            System.out.println("Order Id Not Found");
+                        }
                     }
-                } catch (OrderNotFound e) {
-                    System.out.println("Order Id Not Found");
+                } else {
+                    System.out.println(RED + "Bestellung hat nicht den Status IN_DELIVERY, Bitte wähle von den " +
+                            "vorgeschlagenen IDs aus" + RESET);
                 }
             }
 

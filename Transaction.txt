@@ -1,3 +1,38 @@
+Produkt_ID, Menge: Enter
+1,2
+
+# Produkt_ID, Menge: Enter
+4,3
+
+# Produkte in die Liste Einfügen: b Enter
+
+# Produkt_ID, Menge: Enter
+11,2
+
+# Produkt_ID, Menge: Enter
+42,3
+
+# Produkte in die Liste Einfügen: b Enter
+b
+
+# Produkt_ID, Menge: Enter
+14,2
+
+# Produkt_ID, Menge: Enter
+45,3
+
+# Produkte in die Liste Einfügen: b Enter
+b
+
+# Produkt_ID, Menge: Enter
+8,2
+
+# Produkt_ID, Menge: Enter
+9,3
+
+# Produkte in die Liste Einfügen: b Enter
+b
+
 # Produkt_ID, Menge: Enter
 1,2
 
@@ -45,10 +80,18 @@ f
 
 f
 
+
 g
+
+g
+
+g
+
 
 #Listen Ausgeben mit verschiedenen Status: d Enter
 d
+
+f
 
 # Bestellung auf "Abgeschlossen" setzen: g Enter
 g
@@ -92,6 +135,8 @@ b
 
 #Listen Ausgeben mit verschiedenen Status: d Enter
 d
+
+f
 
 # Bestellung auf "Abgeschlossen" setzen: g Enter
 g
