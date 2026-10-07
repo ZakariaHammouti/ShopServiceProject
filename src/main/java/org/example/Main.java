@@ -4,11 +4,17 @@ package org.example;
 import org.w3c.dom.ls.LSOutput;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.UUID;
 
 public class Main {
     static void main(String[] args) throws IOException {
+
+        String RED = "\u001B[31m";
+        String YELLOW = "\u001B[33m";
+        String GREEN = "\u001B[32m";
+        String RESET = "\u001B[0m";
 
         CsvReader csvReader = new CsvReader();
         List<String[]> tmpList = csvReader.getLines();
@@ -23,7 +29,35 @@ public class Main {
         for (int i = 0; i < size; i++) {
             System.out.println(shopService.getProductRepo().getListProducts().get(i));
         }
-        System.out.println("");
+        System.out.println("Template created by KI");
+        System.out.println("""
+                ╔══════════════════════════════════════════════╗
+                ║              🛒 SHOP SERVICE                 ║
+                ╠══════════════════════════════════════════════╣
+                ║ PRODUKTE AUSWÄHLEN                           ║
+                ║                                              ║
+                ║ productId, quantity                          ║
+                ║ Beispiel: 1, 2  Enter                                                              ║
+                ╠══════════════════════════════════════════════╣
+                ║ BESTELLUNG                                   ║
+                ║                                              ║
+                ║ a  → Bestellung abbrechen                    ║
+                ║ b  → Bestellung in Bestellungsliste einfügen ║
+                ╠══════════════════════════════════════════════╣
+                ║ WARENEINGANG                                 ║
+                ║                                              ║
+                ║ c, productId, quantity                       ║
+                ║ Beispiel: c, 1, 22 ENTER                     ║
+                ║      und Order ID vergeben                                                      
+                                                               ║
+                ╠══════════════════════════════════════════════╣
+                ║ BESTELLUNGEN                                 ║
+                ║                                              ║
+                ║ d  → Bestellungen "Nach Status sortiert"  anzeigen ║ 
+                ║ f, orderId → Bestellung versenden            ║
+                ║ g, orderId → Bestellung abschließen          ║
+                ╚══════════════════════════════════════════════╝
+                """);
 
 
         List<Product> orderProducts = new ArrayList<>() {
@@ -38,39 +72,19 @@ public class Main {
 
         Order orderFromConsole;
 
-        Scanner scanner = new Scanner(System.in);
+        Scanner fileScanner = new Scanner(Path.of("Transaction.txt"));
+        Scanner userScanner = new Scanner(System.in);
         String givenProduct = "";
-        while (true) {
-            System.out.println("Template created by KI");
-            System.out.println("""
-                    ╔══════════════════════════════════════════════╗
-                    ║              🛒 SHOP SERVICE                 ║
-                    ╠══════════════════════════════════════════════╣
-                    ║ PRODUKTE AUSWÄHLEN                           ║
-                    ║                                              ║
-                    ║ productId, quantity                          ║
-                    ║ Beispiel: 1, 2  Enter                                                              ║
-                    ╠══════════════════════════════════════════════╣
-                    ║ BESTELLUNG                                   ║
-                    ║                                              ║
-                    ║ a  → Bestellung abbrechen                    ║
-                    ║ b  → Bestellung in Bestellungsliste einfügen ║
-                    ╠══════════════════════════════════════════════╣
-                    ║ WARENEINGANG                                 ║
-                    ║                                              ║
-                    ║ c, productId, quantity                       ║
-                    ║ Beispiel: c, 1, 22 ENTER                     ║
-                    ║      und Order ID vergeben                                                      
-                                                                   ║
-                    ╠══════════════════════════════════════════════╣
-                    ║ BESTELLUNGEN                                 ║
-                    ║                                              ║
-                    ║ d  → Bestellungen "Nach Status sortiert"  anzeigen ║ 
-                    ║ f, orderId → Bestellung versenden            ║
-                    ║ g, orderId → Bestellung abschließen          ║
-                    ╚══════════════════════════════════════════════╝
-                    """);
-            givenProduct = scanner.nextLine();
+        while (fileScanner.hasNextLine()) {
+
+
+            //givenProduct = scanner.nextLine();
+            givenProduct = fileScanner.nextLine().trim();
+
+            if (givenProduct.isEmpty() || givenProduct.startsWith("#")) {
+                continue;
+            }
+
             if (givenProduct.equals("b")) {
                 if (orderProducts != null) {
                     if (!orderProducts.isEmpty()) {
@@ -87,10 +101,11 @@ public class Main {
             }
             if (givenProduct.startsWith("c")) {
                 //add Products to ProductRepo
-                System.out.println("Waren Eingang");
-                String[] productsAddToStock = givenProduct.split(",");
+                System.out.println("Waren Eingang: ProduktId, Menge, ProduktId, Menge.... dann Enter...");
+                String consoleInput = userScanner.nextLine();
+                String[] productsAddToStock = consoleInput.split(",");
                 //Lösche c
-                productsAddToStock = Arrays.copyOfRange(productsAddToStock, 1, productsAddToStock.length);
+                // productsAddToStock = Arrays.copyOfRange(productsAddToStock, 1, productsAddToStock.length);
                 Map<String, Integer> mapNewProducts = new HashMap<>();
                 //Damit ich paare bilden kann
                 int length = productsAddToStock.length;
@@ -109,34 +124,51 @@ public class Main {
                 }
             }
             if (givenProduct.startsWith("d")) {
-                System.out.println("In Bearbeitung:");
+                System.out.println(RED + "In Bearbeitung:" + RESET);
                 shopService.getOrderRepo().getAll().stream()
                         .filter(order -> order.status() == OrderStatus.PROCESSING).forEach(System.out::println);
                /* System.out.println("OrderList: " + shopService.getOrderRepo().getAll().stream()
                         .map(order -> order.product()).toList());*/
-                System.out.println("Versendet:");
+                System.out.println(YELLOW + "Versendet:" + RESET);
                 shopService.getOrderRepo().getAll().stream()
                         .filter(order -> order.status() == OrderStatus.IN_DELIVERY).forEach(System.out::println);
 
-                System.out.println("Abgeschlossen:");
+                System.out.println(GREEN + "Abgeschlossen:" + RESET);
                 shopService.getOrderRepo().getAll().stream()
                         .filter(order -> order.status() == OrderStatus.COMPLETED).forEach(System.out::println);
             }
             if (givenProduct.startsWith("f")) {
-                System.out.println("Order raussuchen und PlaceOrder starten");
-                String[] getOrderIdFromConsole = givenProduct.split(",");
+                shopService.getOrderRepo().getAll().stream()
+                        .filter(order -> order.status() == OrderStatus.PROCESSING)
+                        .forEach(order -> System.out.
+                                println(order.orderId() + "  " + order.status()));
+
+                System.out.println("Um zu bestellen, kopiere eine Order ID dann Enter");
+
+                String consoleInput = userScanner.nextLine();
+
+                //String[] getOrderIdFromConsole = givenProduct.split(",");
                 try {
-                    shopService.placeOrder(getOrderIdFromConsole[1].trim());
+                    shopService.placeOrder(consoleInput.trim());
                 } catch (OrderNotFound e) {
                     System.out.println("Order Id Not Found");
                 }
             }
             if (givenProduct.startsWith("g")) {
-                System.out.println("Order auf completed setzen");
-                String[] getOrderIdFromConsole = givenProduct.split(",");
+                shopService.getOrderRepo().getAll().stream()
+                        .filter(order -> order.status() == OrderStatus.IN_DELIVERY)
+                        .forEach(order -> System.out.
+                                println(order.orderId() + "  " + order.status()));
+
+                System.out.println("Welche Bestellungen wurden zugestellt?");
+                System.out.println("kopiere eine Order ID dann Enter");
+
+                String consoleInput = userScanner.nextLine();
+
+                //String[] getOrderIdFromConsole = consoleInput.split(",");
                 try {
-                    if (shopService.getOrderRepo().getById(getOrderIdFromConsole[1].trim()).status().equals(OrderStatus.IN_DELIVERY)) {
-                        shopService.updateOrderStatus(getOrderIdFromConsole[1].trim(), OrderStatus.COMPLETED);
+                    if (shopService.getOrderRepo().getById(consoleInput.trim()).status().equals(OrderStatus.IN_DELIVERY)) {
+                        shopService.updateOrderStatus(consoleInput.trim(), OrderStatus.COMPLETED);
                     }
                 } catch (OrderNotFound e) {
                     System.out.println("Order Id Not Found");
@@ -156,7 +188,7 @@ public class Main {
                             System.out.println("Menge zu Groß. Verfügbare Menge: " + productToCheck.quantity());
 
                         } else {
-                            System.out.println("Menge passt");
+                            System.out.println("");
                             for (int i = 0; i < Integer.parseInt(productIdAndCount[1].trim()); i++) {
                                 orderProducts.add(productToCheck);
                             }
@@ -167,7 +199,7 @@ public class Main {
 
                 }
             }
-            System.out.println("Menge eingeben und enter: ");
+            System.out.println("");
         }
     }
 
