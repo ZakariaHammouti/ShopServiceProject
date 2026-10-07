@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +26,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
         repo.removeProduct("");
@@ -45,7 +46,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
         repo.removeProduct("15");
@@ -65,7 +66,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
         repo.removeProduct(null);
@@ -85,7 +86,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
         repo.removeProduct("15");
@@ -115,7 +116,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
         repo.removeProduct("15");
@@ -143,12 +144,12 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
 
         assertEquals(repo.getListProducts().getFirst(),
-                repo.getProduct("1"));
+                repo.getProduct("1").get());
     }
 
     @Test
@@ -164,7 +165,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
 
@@ -185,7 +186,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
 
@@ -197,7 +198,7 @@ class ProductRepoTest {
     void getProduct_ShouldReturnValidProductByGivenValidProductIdByListEmpty() {
         ProductRepo repo = new ProductRepo();
         repo.getListProducts().clear();
-        assertNull(repo.getProduct("15"));
+        assertEquals(Optional.empty(), repo.getProduct("15"));
     }
 
     @Test
@@ -213,7 +214,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
         assertNotNull(repo.getProduct("15"));
@@ -239,7 +240,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
 
@@ -263,7 +264,7 @@ class ProductRepoTest {
 
         // ShopService mit den CSV-Daten erstellen
         OrderRepoInterface orderListRepo = new OrderListRepo();
-        ShopService shopService = new ShopService(orderListRepo, dataList);
+        ShopService shopService = new ShopService(orderListRepo, dataList, "");
 
         ProductRepo repo = shopService.getProductRepo();
         int actualQuantity = repo.getListProducts().get(0).quantity();

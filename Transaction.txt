@@ -1,0 +1,100 @@
+# Produkt_ID, Menge: Enter
+1,2
+
+# Produkt_ID, Menge: Enter
+4,3
+
+# Produkte in die Liste Einfügen: b Enter
+b
+
+# Produkt_ID, Menge: Enter
+11,2
+
+# Produkt_ID, Menge: Enter
+42,3
+
+# Produkte in die Liste Einfügen: b Enter
+b
+
+# Produkt_ID, Menge: Enter
+14,2
+
+# Produkt_ID, Menge: Enter
+45,3
+
+# Produkte in die Liste Einfügen: b Enter
+b
+
+# Produkt_ID, Menge: Enter
+8,2
+
+# Produkt_ID, Menge: Enter
+9,3
+
+# Produkte in die Liste Einfügen: b Enter
+b
+
+#Listen Ausgeben mit verschiedenen Status: d Enter
+d
+
+# Bestellung starten
+
+f
+
+f
+
+f
+
+g
+
+#Listen Ausgeben mit verschiedenen Status: d Enter
+d
+
+# Bestellung auf "Abgeschlossen" setzen: g Enter
+g
+
+# Wareneingang - Bestand erhöhen: c, Produkt_I, Menge c
+c
+
+# Produkt_ID, Menge: Enter
+1,2
+
+# Produkt_ID, Menge: Enter
+9,3
+
+# Produkte in die Liste Einfügen: b Enter
+b
+
+# Produkt_ID, Menge: Enter
+10,2
+
+# Produkt_ID, Menge: Enter
+11,3
+
+# Produkte in die Liste Einfügen: b Enter
+b
+# Produkt_ID, Menge: Enter
+89,2
+
+# Produkt_ID, Menge: Enter
+56,3
+
+# Produkte in die Liste Einfügen: b Enter
+b
+# Produkt_ID, Menge: Enter
+14,2
+
+# Produkt_ID, Menge: Enter
+12,3
+
+# Produkte in die Liste Einfügen: b Enter
+b
+
+#Listen Ausgeben mit verschiedenen Status: d Enter
+d
+
+# Bestellung auf "Abgeschlossen" setzen: g Enter
+g
+
+# Wareneingang - Bestand erhöhen: c, Produkt_I, Menge c
+c

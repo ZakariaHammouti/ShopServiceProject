@@ -1,6 +1,10 @@
 package org.example;
 
 import java.lang.classfile.MethodSignature;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,14 +30,39 @@ public class OrderListRepo implements OrderRepoInterface {
 
 
     @Override
-    public void cutToHistoryList(Order order) {
+    public OrderStatus updateOrderStatus(Order updatedOrder)
+            throws OrderNotFound {
+        for (int i = 0; i < listOrders.size(); i++) {
 
+            if (listOrders.get(i).orderId().equals(updatedOrder.orderId())) {
+                listOrders.set(i, updatedOrder);
+                return listOrders.get(i).status();
+            }
+        }
+
+        throw new OrderNotFound(
+                "Order nicht gefunden: " + updatedOrder.orderId()
+        );
+    }
+
+    @Override
+    public void cutToHistoryList(Order order) {
+        if (order != null) {
+            if (getListOrders() != null && getListOrdersHistory() != null) {
+                getListOrdersHistory().add(order);
+                removeOrder(order.orderId());
+            }
+        }
     }
 
     //Methods
     @Override
     public void addOrder(Order order) {
-        this.listOrders.add(order);
+        Instant instant = Instant.now();
+        ZoneId zoneId = ZoneId.systemDefault();
+        ZonedDateTime zonedDateTime = instant.atZone(zoneId).withNano(0);
+        Order updatedOrder = order.withOrderTime(zonedDateTime);
+        this.listOrders.add(updatedOrder);
     }
 
     @Override
@@ -47,7 +76,7 @@ public class OrderListRepo implements OrderRepoInterface {
     }
 
     @Override
-    public Order getById(String orderId) {
+    public Order getById(String orderId) throws OrderNotFound {
         if (getListOrders() != null) {
             for (int i = 0; i < getListOrders().size(); i++) {
                 if (orderId.equals(getListOrders().get(i).orderId())) {
@@ -55,7 +84,7 @@ public class OrderListRepo implements OrderRepoInterface {
                 }
             }
         }
-        return null;
+        throw new OrderNotFound("Order nicht gefunden: " + orderId);
     }
 
     //Wie viele gleiche Produkte habe ich in meinen Order

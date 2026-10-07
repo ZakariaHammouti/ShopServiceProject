@@ -1,14 +1,17 @@
 package org.example;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ShopService {
 
     //Properties
     private ProductRepo productRepo;
     private OrderRepoInterface orderRepo;
-
+    private String servicId;
     //private OrderRepoInterface orderMapRepo;
 
     //Constructor
@@ -17,9 +20,15 @@ public class ShopService {
         this.orderRepo = orderRepo;
     }
 
-    public ShopService(OrderRepoInterface orderRepo, List<String[]> listProducts) {
+    public String getServicId() {
+        return servicId;
+    }
+
+    public ShopService(OrderRepoInterface orderRepo, List<String[]> listProducts,
+                       String serviceId) {
         this.productRepo = new ProductRepo(listProducts);
         this.orderRepo = orderRepo;
+        this.servicId = serviceId;
     }
 
     //Getter und Setter
@@ -43,9 +52,10 @@ public class ShopService {
     //Schritt 1: Implementiere eine Methode zum Aufgeben einer neuen Bestellung.
     // Die Artikel werden später unter Angabe der Produkt Id bestellt.
 
-    public boolean placeOrder(String orderId) {
+    public boolean placeOrder(String orderId) throws OrderNotFound {
         //hol die Bestellung mit der ID von OrderRepoList
         Order tmpOrder = getOrderRepo().getById(orderId);
+
         int countProductFound = 0;
 
         if (tmpOrder == null) {
@@ -64,6 +74,7 @@ public class ShopService {
         }
         if (products.size() == countProductFound) {
             System.out.println("Alle Produkte sind auf Lager, Bestellung erfolgreich");
+            updateOrderStatus(orderId, OrderStatus.IN_DELIVERY);
             return true;
         } else {
             System.out.println("Nicht alle Produkte sind auf Lager, Bestellung nicht erfolgreich");
@@ -98,6 +109,33 @@ public class ShopService {
         return false;
     }
 
+    public Optional<List<Order>> getOrderStatus(OrderStatus status) {
+        if (status == null) {
+            return Optional.empty();
+        }
+
+        List<Order> listOders = new ArrayList<>();
+        listOders = orderRepo.getAll().stream()
+                .filter(order -> status == order.status()).toList();
+
+        if (listOders.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(listOders);
+    }
+
+    public OrderStatus updateOrderStatus(String orderId, OrderStatus newStatus) throws OrderNotFound {
+        {
+            Order order = getOrderRepo().getById(orderId);
+
+            Order updatedOrder = order.withStatus(newStatus);
+
+            getOrderRepo().updateOrderStatus(updatedOrder);
+
+            return updatedOrder.status();
+        }
+    }
 
     @Override
     public String toString() {

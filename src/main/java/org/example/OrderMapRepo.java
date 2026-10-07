@@ -1,6 +1,8 @@
 package org.example;
 
-import java.util.ArrayList;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +39,13 @@ public class OrderMapRepo implements OrderRepoInterface {
     //Methods
     @Override
     public void addOrder(Order order) {
-        getOrderMap().put(order.orderId(), order);
+        //ZonedDataTime
+        Instant instant = Instant.now();
+        ZoneId zoneId = ZoneId.systemDefault();
+        ZonedDateTime zonedDateTime = instant.atZone(zoneId).withNano(0);
+        Order updatedOrder = order.withOrderTime(zonedDateTime);
+
+        getOrderMap().put(updatedOrder.orderId(), updatedOrder);
     }
 
     @Override
@@ -45,14 +53,29 @@ public class OrderMapRepo implements OrderRepoInterface {
         getOrderMap().remove(orderId);
     }
 
-    public Order getById() {
-        return getById("0");
+    @Override
+    public Order getById(String productId) throws OrderNotFound {
+        //remove later
+        Order order = getOrderMap().get(productId);
+        if (order == null) {
+            throw new OrderNotFound("Order nicht gefunden: " + productId);
+        }
+        return order;
     }
 
     @Override
-    public Order getById(String productId) {
-        //remove later
-        return getOrderMap().get(productId);
+    public OrderStatus updateOrderStatus(
+            Order updatedOrder
+    ) throws OrderNotFound {
+
+        if (!orderMap.containsKey(updatedOrder.orderId())) {
+            throw new OrderNotFound(
+                    "Order nicht gefunden: " + updatedOrder.orderId()
+            );
+        }
+
+        orderMap.put(updatedOrder.orderId(), updatedOrder);
+        return orderMap.get(updatedOrder.orderId()).status();
     }
 
     @Override
