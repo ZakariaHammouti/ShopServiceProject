@@ -147,7 +147,7 @@ public class Main {
                 System.out.println("Um zu bestellen, kopiere eine Order ID dann Enter");
                 if (!shopService.getOrderRepo().getAll().stream()
                         .filter(order -> order.status() == OrderStatus.PROCESSING).toList().isEmpty()) {
-                    consoleInput = userScanner.nextLine();
+                    consoleInput = userScanner.nextLine().trim();
 
                     //String[] getOrderIdFromConsole = givenProduct.split(",");
                     if (shopService.getOrderRepo().getById(consoleInput).status().equals(OrderStatus.PROCESSING)) {
@@ -173,9 +173,7 @@ public class Main {
                 System.out.println("kopiere eine Order ID dann Enter");
                 if (!shopService.getOrderRepo().getAll().stream()
                         .filter(order -> order.status() == OrderStatus.IN_DELIVERY).toList().isEmpty()) {
-                    consoleInput = userScanner.nextLine();
-
-                    //String[] getOrderIdFromConsole = consoleInput.split(",");
+                    consoleInput = userScanner.nextLine().trim();
                     if (shopService.getOrderRepo().getById(consoleInput).status().equals(OrderStatus.IN_DELIVERY)) {
                         try {
                             if (shopService.getOrderRepo().getById(consoleInput.trim()).status().equals(OrderStatus.IN_DELIVERY)) {
